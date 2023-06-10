@@ -34,7 +34,11 @@
                     <p style="color:white">Possible problems</p>
                     <h3>
                         &#x2022; Database connection Error <br>
+                    </h3>
+                    <h3>
                         &#x2022; Server configuration error <br>
+                    </h3>
+                    <h3>
                         &#x2022; PHP error
                     </h3>
                 </div>

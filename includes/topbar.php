@@ -2,7 +2,7 @@
 
     <div class="header-logo">
         <a class="site-logo" href="<?php echo base_url ?>">
-            <img src="<?php echo base_url ?>images/logo.svg" alt="Homepage">
+            <img src="<?php echo base_url ?>assets/images/logo.svg" alt="Homepage">
         </a>
     </div>
 
