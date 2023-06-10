@@ -14,7 +14,7 @@
 
     if($con->connect_error){
         // connection failed, redirect to 
-        header("Location: ./error.php");
+        header("Location: " . base_url . "error");
         die('Connect Error (' . mysqli_connect_errno() . ') '. mysqli_connect_error());
     }
     else{
