@@ -2,7 +2,7 @@
 
     <div class="header-logo">
         <a class="site-logo" href="<?php echo base_url ?>">
-            <img src="<?php echo base_url ?>assets/images/logo.svg" alt="Homepage">
+            <img src="<?php echo base_url ?>assets/images/<?= $system['system_logo'] ?>" alt="Homepage">
         </a>
     </div>
 
@@ -23,10 +23,10 @@
         <?php } ?>
 
         <ul class="header-social">
-            <li><a href="#0"><i class="fab fa-facebook-f" aria-hidden="true"></i></a></li>
-            <li><a href="#0"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
-            <li><a href="#0"><i class="fab fa-dribbble" aria-hidden="true"></i></a></li>
-            <li><a href="#0"><i class="fab fa-behance" aria-hidden="true"></i></a></li>
+            <li><a href="<?= $system['facebook'] ?>" target="_blank"><i class="fab fa-facebook-f" aria-hidden="true"></i></a></li>
+            <li><a href="<?= $system['twitter'] ?>" target="_blank"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
+            <li><a href="<?= $system['instagram'] ?>" target="_blank"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>
+            <li><a href="<?= $system['github'] ?>" target="_blank"><i class="fab fa-github" aria-hidden="true"></i></a></li>
         </ul>
     </nav>
 

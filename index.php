@@ -24,7 +24,7 @@
         <div class="row intro-content">
 
             <div class="column large-9 mob-full intro-text">
-                <h3>Hello, I'm John Doe</h3>
+                <h3>Hello, I'm <?= $system['fullname'] ?></h3>
                 <h1>
                     Digital Designer <br>
                     and Web Developer <br>
@@ -60,47 +60,21 @@
 
             <div class="row about-me__content" data-aos="fade-up">
                 <div class="column large-full about-me__text">
-                    <p class="lead">
-                    Nulla aspernatur nam et accusantium. Tempore delectus dignissimos aut
-                    ab commodi. Labore et cupiditate temporibus odio debitis eaque. 
-                    Officia provident aut iste et dicta perferendis. Velit iure adipisci. 
-                    Molestiae qui fuga rerum facilis.
-                    </p>
-
-                    <p>
-                    Reprehenderit quia id facilis nihil odit perferendis fugiat quidem voluptas. 
-                    Non ratione tenetur. Quis earum quia deleniti fugit fugiat minus omnis. 
-                    Iure dolore dolorum. Aspernatur quos cumque ea dolorum nemo nihil 
-                    beatae magnam. Qui molestiae rem. Maxime enim provident ipsum reprehenderit tenetur. Et cupiditate 
-                    repellendus. Et modi ipsum aut harum. Ratione alias.
-                    </p>
-
-                    <p>
-                    Rerum consequatur dolore quae.
-                    Qui excepturi facilis quam quae quasi. Mollitia occaecati minus voluptas veniam.
-                    Qui excepturi facilis quam quae quasi. Mollitia occaecati minus voluptas veniam. Est est occaecati dolor 
-                    qui aut et eum. Aspernatur quos cumque ea dolorum nemo nihil 
-                    beatae magnam. Qui molestiae rem.
-                    </p>
-
-                    <p>
-                    Maxime enim provident ipsum reprehenderit tenetur. Et cupiditate 
-                    repellendus. Et modi ipsum aut harum. Ratione alias sed. Rerum 
-                    consequatur dolore quae. Qui excepturi facilis quam quae quasi. 
-                    Mollitia occaecati minus voluptas veniam. Est est occaecati dolor 
-                    qui aut et eum. Aspernatur quos cumque ea dolorum nemo nihil 
-                    beatae magnam. Qui molestiae rem. Aspernatur quos cumque ea dolorum 
-                    nemo nihil. Qui molestiae rem.
-                    </p>
+                    <p class="lead"><?= $system['about_first'] ?></p>
+                    <p><?= $system['about_second'] ?></p>
+                    <p><?= $system['about_third'] ?></p>
+                    <p><?= $system['about_fourth'] ?></p>
                 </div>
             </div>
     
             <div class="row about-me__buttons">
                 <div class="column large-half tab-full" data-aos="fade-up">
-                    <a href="#0" class="btn btn--stroke full-width">Hire Me</a>
+                    <a href="mailto:<?= $system['email'] ?>" class="btn btn--stroke full-width">Hire Me</a>
                 </div>
                 <div class="column large-half tab-full" data-aos="fade-up">
-                    <a href="#0" class="btn btn--primary full-width">Download CV</a>
+                    <form action="<?= base_url . 'assets/docs/' . $system['resume'] ?>" method="POST">
+                        <button class="btn btn--primary full-width" download>Download Resume</button>
+                    </form>
                 </div>
             </div>
 
@@ -123,41 +97,34 @@
                             <span class="timeline__icon timeline__icon--work"></span>
                         </div>
 
-                        <div class="timeline__block">
-                            <div class="timeline__bullet"></div>
-                            <div class="timeline__header">
-                                <p class="timeline__timeframe">July 2018 - Present</p>
-                                <h3 class="item-title">Awesome Studio</h3>
-                                <h5>Lead Designer</h5>
-                            </div>
-                            <div class="timeline__desc">
-                                <p>Lorem ipsum Occaecat do esse ex et dolor culpa nisi ex in magna consectetur nisi cupidatat laboris esse eiusmod deserunt aute do quis velit esse sed Ut proident cupidatat nulla esse cillum laborum occaecat nostrud sit dolor incididunt amet est occaecat nisi.</p>
-                            </div>
-                        </div>
+                        <?php
+                            $sql = "SELECT * FROM work ORDER BY priority DESC";
+                            $sql_run = mysqli_query($con, $sql);
 
-                        <div class="timeline__block">
-                            <div class="timeline__bullet"></div>
-                            <div class="timeline__header">
-                                <p class="timeline__timeframe">July 2017 - June 2018</p>
-                                <h3 class="item-title">Super Cool Agency</h3>
-                                <h5>Frontend Developer</h5>
-                            </div>
-                            <div class="timeline__desc">
-                                <p>Lorem ipsum Occaecat do esse ex et dolor culpa nisi ex in magna consectetur nisi cupidatat laboris esse eiusmod deserunt aute do quis velit esse sed Ut proident cupidatat nulla esse cillum laborum occaecat nostrud sit dolor incididunt amet est occaecat nisi.</p>
-                            </div>
-                        </div>
-
-                        <div class="timeline__block">
-                            <div class="timeline__bullet"></div>
-                            <div class="timeline__header">
-                                <p class="timeline__timeframe">March 2016 - June 2017</p>
-                                <h3 class="item-title">Epic Design Studio</h3>
-                                <h5>Frontend Developer</h5>
-                            </div>
-                            <div class="timeline__desc">
-                                <p>Lorem ipsum Occaecat do esse ex et dolor culpa nisi ex in magna consectetur nisi cupidatat laboris esse eiusmod deserunt aute do quis velit esse sed Ut proident cupidatat nulla esse cillum laborum occaecat nostrud sit dolor incididunt amet est occaecat nisi.</p>
-                            </div>
-                        </div>
+                            if ($sql_run) {
+                                if(mysqli_num_rows($sql_run) > 0){
+                                    while ($row = mysqli_fetch_assoc($sql_run)) {
+                                        ?>
+                                        <div class="timeline__block">
+                                            <div class="timeline__bullet"></div>
+                                            <div class="timeline__header">
+                                                <p class="timeline__timeframe"><?= $row['started'] ?> - <?= $row['ended'] ?></p>
+                                                <h3 class="item-title"><?= $row['company'] ?></h3>
+                                                <h5><?= $row['position'] ?></h5>
+                                            </div>
+                                            <div class="timeline__desc">
+                                                <p><?= $row['description'] ?></p>
+                                            </div>
+                                        </div>
+                                        <?php
+                                    }
+                                } else {
+                                    echo "&nbsp;No work at the moment.";
+                                }
+                            } else {
+                                echo "Query failed: " . mysqli_error($con);
+                            }
+                        ?>
 
                     </div>
                 </div>
@@ -169,41 +136,34 @@
                             <span class="timeline__icon timeline__icon--education"></span>
                         </div>
 
-                        <div class="timeline__block">
-                            <div class="timeline__bullet"></div>
-                            <div class="timeline__header">
-                                <p class="timeline__timeframe">July 2011 - June 2015</p>
-                                <h3 class="item-title">University of Life</h3>
-                                <h5>Master Degree</h5>
-                            </div>
-                            <div class="timeline__desc">
-                                <p>Lorem ipsum Occaecat do esse ex et dolor culpa nisi ex in magna consectetur nisi cupidatat laboris esse eiusmod deserunt aute do quis velit esse sed Ut proident cupidatat nulla esse cillum laborum occaecat nostrud sit dolor incididunt amet est occaecat nisi.</p>
-                            </div>
-                        </div>
+                        <?php
+                            $sql = "SELECT * FROM education ORDER BY priority DESC";
+                            $sql_run = mysqli_query($con, $sql);
 
-                        <div class="timeline__block">
-                            <div class="timeline__bullet"></div>
-                            <div class="timeline__header">
-                                <p class="timeline__timeframe">July 2009 - June 2011</p>
-                                <h3 class="item-title">State Design University</h3>
-                                <h5>Bachelor Degree</h5>
-                            </div>
-                            <div class="timeline__desc">
-                                <p>Lorem ipsum Occaecat do esse ex et dolor culpa nisi ex in magna consectetur nisi cupidatat laboris esse eiusmod deserunt aute do quis velit esse sed Ut proident cupidatat nulla esse cillum laborum occaecat nostrud sit dolor incididunt amet est occaecat nisi.</p>
-                            </div>
-                        </div>
-
-                        <div class="timeline__block">
-                            <div class="timeline__bullet"></div>
-                            <div class="timeline__header">
-                                <p class="timeline__timeframe">July 2005 - June 2009</p>
-                                <h3 class="item-title">School of Hard Knocks</h3>
-                                <h5>Bachelor Degree</h5>
-                            </div>
-                            <div class="timeline__desc">
-                                <p>Lorem ipsum Occaecat do esse ex et dolor culpa nisi ex in magna consectetur nisi cupidatat laboris esse eiusmod deserunt aute do quis velit esse sed Ut proident cupidatat nulla esse cillum laborum occaecat nostrud sit dolor incididunt amet est occaecat nisi.</p>
-                            </div>
-                        </div>
+                            if ($sql_run) {
+                                if(mysqli_num_rows($sql_run) > 0){
+                                    while ($row = mysqli_fetch_assoc($sql_run)) {
+                                        ?>
+                                        <div class="timeline__block">
+                                            <div class="timeline__bullet"></div>
+                                            <div class="timeline__header">
+                                                <p class="timeline__timeframe"><?= $row['started'] ?> - <?= $row['ended'] ?></p>
+                                                <h3 class="item-title"><?= $row['school'] ?></h3>
+                                                <h5><?= $row['degree'] ?></h5>
+                                            </div>
+                                            <div class="timeline__desc">
+                                                <p><?= $row['description'] ?></p>
+                                            </div>
+                                        </div>
+                                        <?php
+                                    }
+                                } else {
+                                    echo "&nbsp;No school at the moment.";
+                                }
+                            } else {
+                                echo "Query failed: " . mysqli_error($con);
+                            }
+                        ?>
 
                     </div>
                 </div>
@@ -302,6 +262,58 @@
 
     </section> <!-- end s-services -->
 
+    <!-- styles
+    ================================================== -->
+    <section id="styles" class="s-works">
+        <div class="column large-12 tab-full">
+
+            <h3 class="text-center">Skill Bars</h3>
+
+            <ul class="skill-bars">
+                <li>
+                    <div class="progress percent95"><span>92%</span></div>
+                    <strong>PHP</strong>
+                </li>
+                <li>
+                    <div class="progress percent90"><span>90%</span></div>
+                    <strong>HTML5</strong>
+                </li>
+                <li>
+                    <div class="progress percent85"><span>85%</span></div>
+                    <strong>C++</strong>
+                </li>
+                <li>
+                    <div class="progress percent80"><span>80%</span></div>
+                    <strong>CSS</strong>
+                </li>
+                <li>
+                    <div class="progress percent75"><span>73%</span></div>
+                    <strong>Javascript</strong>
+                </li>
+                <li>
+                    <div class="progress percent70"><span>70%</span></div>
+                    <strong>JQuery</strong>
+                </li>
+                <li>
+                    <div class="progress percent60"><span>66%</span></div>
+                    <strong>Editing</strong>
+                </li>
+                <li>
+                    <div class="progress percent40"><span>40%</span></div>
+                    <strong>Flutter</strong>
+                </li>
+                <li>
+                    <div class="progress percent35"><span>35%</span></div>
+                    <strong>Dart</strong>
+                </li>
+                <li>
+                    <div class="progress percent15"><span>12%</span></div>
+                    <strong>Angular JS</strong>
+                </li>
+            </ul>
+
+        </div>
+    </section>
 
     <!-- CTA
     ================================================== -->
@@ -318,12 +330,12 @@
         <div class="row cta-content" data-aos="fade-up">
             <div class="column large-full">
                 <p>
-                We highly recommend <a href="https://www.dreamhost.com/r.cgi?287326">DreamHost</a>.
-                Powerful web and Wordpress hosting. Guaranteed.
-                Starting at $2.95 per month.
+                    We highly recommend <a href="https://www.hostinger.ph" target="_blank">Hostinger</a>.
+                    Powerful web and Wordpress hosting. Guaranteed.
+                    Starting at ₱500 per month.
                 </p>
 
-                <a href="https://www.dreamhost.com/r.cgi?287326" class="btn full-width">Get Started</a>
+                <a href="https://www.hostinger.ph" target="_blank" class="btn full-width">Get Started</a>
             </div>
         </div> <!-- end ad-content -->
 
@@ -336,9 +348,9 @@
 
         <div class="row heading-block heading-block--center" data-aos="fade-up">
             <div class="column large-full">
-                <h2 class="section-heading section-heading--centerbottom">Selected Works</h2>
+                <h2 class="section-heading section-heading--centerbottom">Works</h2>
                 <p class="section-desc">
-                    Here are some of my selected works I have done lately. Feel free to 
+                    Here are some of my works I have done lately. Feel free to 
                     check them out.
                 </p>
             </div>
@@ -349,148 +361,47 @@
             <div class="masonry">
                 <div class="grid-sizer"></div>
     
-                <div class="masonry__brick" data-aos="fade-up">
-                    <div class="item-folio">
-                        <div class="item-folio__thumb">
-                            <a href="<?php echo base_url ?>assets/images/portfolio/gallery/g-city-building.jpg" class="thumb-link" title="Shutterbug" data-size="1050x700">
-                                <img src="<?php echo base_url ?>assets/images/portfolio/city-building.jpg" 
-                                     srcset="<?php echo base_url ?>assets/images/portfolio/city-building.jpg 1x, <?php echo base_url ?>assets/images/portfolio/city-building@2x.jpg 2x" alt="">
-                            </a>    
-                            <a href="https://www.behance.net/" class="item-folio__project-link" title="Project link" target="_blank"></a>
-                        </div>
-    
-                        <div class="item-folio__text">
-                            <h4 class="item-folio__title">
-                                City Building
-                            </h4>
-                            <p class="item-folio__cat">
-                                Branding
-                            </p>
-                        </div>
-    
-                        <div class="item-folio__caption">
-                            <p>Vero molestiae sed aut natus excepturi. Et tempora numquam. Temporibus iusto quo.Unde dolorem corrupti neque nisi.</p>
-                        </div>
-                    </div>
-                </div> <!-- end masonry__brick -->
-    
-                <div class="masonry__brick" data-aos="fade-up">
-                    <div class="item-folio">
-                        <div class="item-folio__thumb">
-                            <a href="<?php echo base_url ?>assets/images/portfolio/gallery/g-woodcraft.jpg" class="thumb-link" title="Woodcraft" data-size="1050x700">
-                                <img src="<?php echo base_url ?>assets/images/portfolio/woodcraft.jpg" 
-                                     srcset="<?php echo base_url ?>assets/images/portfolio/woodcraft.jpg 1x, <?php echo base_url ?>assets/images/portfolio/woodcraft@2x.jpg 2x" alt="">
-                            </a>
-                            <a href="https://www.behance.net/" class="item-folio__project-link" title="Project link" target="_blank"></a>
-                        </div>
-                        <div class="item-folio__text">
-                            <h4 class="item-folio__title">
-                                Woodcraft
-                            </h4>
-                            <p class="item-folio__cat">
-                                Web Design
-                            </p>
-                        </div>
-                        <div class="item-folio__caption">
-                            <p>Vero molestiae sed aut natus excepturi. Et tempora numquam. Temporibus iusto quo.Unde dolorem corrupti neque nisi.</p>
-                        </div>
-                    </div>
-                </div> <!-- end masonry__brick -->
+                <?php
+                    $sql = "SELECT * FROM work ORDER BY priority DESC";
+                    $sql_run = mysqli_query($con, $sql);
 
-                <div class="masonry__brick" data-aos="fade-up">
-                    <div class="item-folio">
-                            
-                        <div class="item-folio__thumb">
-                            <a href="<?php echo base_url ?>assets/images/portfolio/gallery/g-beetle.jpg" class="thumb-link" title="The Beetle Car" data-size="1050x700">
-                                <img src="<?php echo base_url ?>assets/images/portfolio/the-beetle.jpg"
-                                     srcset="<?php echo base_url ?>assets/images/portfolio/the-beetle.jpg 1x, <?php echo base_url ?>assets/images/portfolio/the-beetle@2x.jpg 2x" alt="">
-                            </a>
-                            <a href="https://www.behance.net/" class="item-folio__project-link" title="Project link" target="_blank"></a>
-                        </div>
-                        <div class="item-folio__text">
-                            <h4 class="item-folio__title">
-                                The Beetle
-                            </h4>
-                            <p class="item-folio__cat">
-                                Web Development
-                            </p>
-                        </div>
-                        <div class="item-folio__caption">
-                            <p>Vero molestiae sed aut natus excepturi. Et tempora numquam. Temporibus iusto quo.Unde dolorem corrupti neque nisi.</p>
-                        </div>
-                    </div>
-                </div> <!-- end masonry__brick -->
-
-                <div class="masonry__brick" data-aos="fade-up">
-                    <div class="item-folio">
-                        <div class="item-folio__thumb">
-                            <a href="<?php echo base_url ?>assets/images/portfolio/gallery/g-shutterbug.jpg" class="thumb-link" title="Grow Green" data-size="1050x700">
-                                <img src="<?php echo base_url ?>assets/images/portfolio/shutterbug.jpg" 
-                                     srcset="<?php echo base_url ?>assets/images/portfolio/shutterbug.jpg 1x, <?php echo base_url ?>assets/images/portfolio/shutterbug@2x.jpg 2x" alt="">
-                            </a>
-                            <a href="https://www.behance.net/" class="item-folio__project-link" title="Project link" target="_blank"></a>
-                        </div>
-                        <div class="item-folio__text">
-                            <h4 class="item-folio__title">
-                                Shutterbug
-                            </h4>
-                            <p class="item-folio__cat">
-                                Branding
-                            </p>
-                        </div>
-                        <div class="item-folio__caption">
-                            <p>Vero molestiae sed aut natus excepturi. Et tempora numquam. Temporibus iusto quo.Unde dolorem corrupti neque nisi.</p>
-                        </div>
-                    </div>
-                </div> <!-- end masonry__brick -->
-
-                <div class="masonry__brick" data-aos="fade-up">
-                    <div class="item-folio">
-                            
-                        <div class="item-folio__thumb">
-                            <a href="<?php echo base_url ?>assets/images/portfolio/gallery/g-lamp.jpg" class="thumb-link" title="Guitarist" data-size="1050x700">
-                                <img src="<?php echo base_url ?>assets/images/portfolio/lamp.jpg" 
-                                     srcset="<?php echo base_url ?>assets/images/portfolio/lamp.jpg 1x, <?php echo base_url ?>assets/images/portfolio/lamp@2x.jpg 2x" alt="">
-                            </a>
-                            <a href="https://www.behance.net/" class="item-folio__project-link" title="Project link" target="_blank"></a>
-                        </div>
-                        <div class="item-folio__text">
-                            <h4 class="item-folio__title">
-                                Lamp
-                            </h4>
-                            <p class="item-folio__cat">
-                                Web Design
-                            </p>
-                        </div>
-                        <div class="item-folio__caption">
-                            <p>Vero molestiae sed aut natus excepturi. Et tempora numquam. Temporibus iusto quo.Unde dolorem corrupti neque nisi.</p>
-                        </div>
-                    </div>
-                </div> <!-- end masonry__brick -->
-        
-                <div class="masonry__brick" data-aos="fade-up">
-                    <div class="item-folio">
-                            
-                        <div class="item-folio__thumb">
-                            <a href="<?php echo base_url ?>assets/images/portfolio/gallery/g-fuji.jpg" class="thumb-link" title="Palmeira" data-size="1050x700">
-                                <img src="<?php echo base_url ?>assets/images/portfolio/fuji.jpg"
-                                     srcset="<?php echo base_url ?>assets/images/portfolio/fuji.jpg 1x, <?php echo base_url ?>assets/images/portfolio/fuji@2x.jpg 2x" alt="">
-                            </a>
-                            <a href="https://www.behance.net/" class="item-folio__project-link" title="Project link" target="_blank"></a>
-                        </div>
-                        <div class="item-folio__text">
-                            <h4 class="item-folio__title">
-                                Fuji
-                            </h4>
-                            <p class="item-folio__cat">
-                                Web Design
-                            </p>
-                        </div>
-                        <div class="item-folio__caption">
-                            <p>Vero molestiae sed aut natus excepturi. Et tempora numquam. Temporibus iusto quo.Unde dolorem corrupti neque nisi.</p>
-                        </div>
-                    </div>
-                </div> <!-- end masonry__brick -->
+                    if ($sql_run) {
+                        if(mysqli_num_rows($sql_run) > 0){
+                            while ($row = mysqli_fetch_assoc($sql_run)) {
+                                ?>
+                                <div class="masonry__brick" data-aos="fade-up">
+                                    <div class="item-folio">
+                                        <div class="item-folio__thumb">
+                                            <a href="<?php echo base_url ?>assets/images/works/<?= $row['banner'] ?>" class="thumb-link" title="<?= $row['name'] ?>" data-size="1050x700">
+                                                <img src="<?php echo base_url ?>assets/images/works/<?= $row['banner'] ?>" 
+                                                    srcset="<?php echo base_url ?>assets/images/works/<?= $row['banner'] ?> 1x, <?php echo base_url ?>assets/images/workds/<?= $row['banner'] ?> 2x" alt="<?= $row['name'] ?>">
+                                            </a>    
+                                            <a href="https://<?= $row['url'] ?>" class="item-folio__project-link" title="Project link" target="_blank"></a>
+                                        </div>
+                    
+                                        <div class="item-folio__text">
+                                            <h4 class="item-folio__title">
+                                                <?= $row['name'] ?>
+                                            </h4>
+                                            <p class="item-folio__cat">
+                                                <?= $row['type'] ?>
+                                            </p>
+                                        </div>
+                    
+                                        <div class="item-folio__caption">
+                                            <p><?= $row['description'] ?></p>
+                                        </div>
+                                    </div>
+                                </div> <!-- end masonry__brick -->
+                                <?php
+                            }
+                        } else {
+                            echo '<div style="text-align: center;">No my works at the moment.</div>';
+                        }
+                    } else {
+                        echo "Query failed: " . mysqli_error($con);
+                    }
+                ?>
 
             </div> <!-- end masonry -->
 
@@ -507,44 +418,33 @@
 
             <div class="column large-full testimonials__slider">
 
-                <div class="testimonials__slide">
-                    <p>Molestiae incidunt consequatur quis ipsa autem nam sit enim magni. Voluptas tempore rem. 
-                    Explicabo a quaerat sint autem dolore ducimus ut consequatur neque.  Nisi dolores quaerat fuga rem nihil nostrum.
-                    Laudantium quia consequatur molestias delectus culpa.</p>
-                    <div class="testimonials__info">
-                        <img src="<?php echo base_url ?>assets/images/avatars/user-02.jpg" alt="Author image" class="testimonials__avatar">
-                        <cite class="testimonials__cite">
-                            <strong>Tim Cook</strong>
-                            <span>CEO, Apple</span>
-                        </cite>
-                    </div>
-                </div> <!-- end testimonials__slide -->
+                <?php
+                    $sql = "SELECT * FROM testimonials";
+                    $sql_run = mysqli_query($con, $sql);
 
-                <div class="testimonials__slide">
-                    <p>Excepturi nam cupiditate culpa doloremque deleniti repellat. Veniam quos repellat voluptas animi adipisci.
-                    Nisi eaque consequatur. Voluptatem dignissimos ut ducimus accusantium perspiciatis.
-                        Quasi voluptas eius distinctio. Atque eos maxime.</p>
-                    <div class="testimonials__info">
-                        <img src="<?php echo base_url ?>assets/images/avatars/user-01.jpg" alt="Author image" class="testimonials__avatar">
-                        <cite class="testimonials__cite">
-                            <strong>Sundar Pichai</strong>
-                            <span>CEO, Google</span>
-                        </cite>
-                    </div>
-                </div> <!-- end testimonials__slide -->
-
-                <div class="testimonials__slide">
-                    <p>Repellat dignissimos libero. Qui sed at corrupti expedita voluptas odit. Nihil ea quia nesciunt. Ducimus aut sed ipsam.  
-                    Autem eaque officia cum exercitationem sunt voluptatum accusamus. Quasi voluptas eius distinctio.
-                    Voluptatem dignissimos ut.</p>
-                    <div class="testimonials__info">
-                        <img src="<?php echo base_url ?>assets/images/avatars/user-04.jpg" alt="Author image" class="testimonials__avatar">
-                        <cite class="testimonials__cite">
-                            <strong>Satya Nadella</strong>
-                            <span>CEO, Microsoft</span>
-                        </cite>
-                    </div>
-                </div> <!-- end testimonials__slide -->
+                    if ($sql_run) {
+                        if(mysqli_num_rows($sql_run) > 0){
+                            while ($row = mysqli_fetch_assoc($sql_run)) {
+                                ?>
+                                <div class="testimonials__slide">
+                                    <p><?= $row['description'] ?></p>
+                                    <div class="testimonials__info">
+                                        <img src="<?php echo base_url ?>assets/images/avatars/<?= $row['photo'] ?>" alt="Author image" class="testimonials__avatar">
+                                        <cite class="testimonials__cite">
+                                            <strong><?= $row['name'] ?></strong>
+                                            <span><?= $row['position'] ?></span>
+                                        </cite>
+                                    </div>
+                                </div> <!-- end testimonials__slide -->
+                                <?php
+                            }
+                        } else {
+                            echo '<div style="text-align: center;">No testimonials at the moment.</div>';
+                        }
+                    } else {
+                        echo "Query failed: " . mysqli_error($con);
+                    }
+                ?>
                 
             </div> <!-- end testimonials__slider -->
 
@@ -565,14 +465,11 @@
 
         <div class="row contact-main" data-aos="fade-up">
             <div class="column large-full">
-                <p class="contact-email">
-                    <a href="mailto:#0">hello@epitome.com</a>
-                </p>
 
                 <p class="section-desc">
                 I'm happy to connect, listen and help. Let's work together and build
                 something awesome. Let's turn your idea to an even greater product.
-                <a href="mailto:#0">Email Me</a>.
+                <a href="mailto:<?= $system['email'] ?>">Email Me</a>.
                 </p>
             </div>
         </div>
@@ -581,15 +478,16 @@
 
             <div class="column large-5 medium-full contact-phone">
                 <h4>Call Me</h4>
-                <a href="tel:197-543-2345">+197 543 2345</a>
+                <a href="tel:<?= $system['number'] ?>"><?= $system['number'] ?></a>
             </div>
 
             <div class="column large-7 medium-full contact-social">
                 <h4>Social</h4>
                 <ul>
-                    <li><a href="#0" title="Facebook">Facebook</a></li>
-                    <li><a href="#0" title="Twitter">Twitter</a></li>
-                    <li><a href="#0" title="Instagram">Instagram</a></li>
+                    <li><a href="<?= $system['facebook'] ?>" target="_blank" title="Facebook">Facebook</a></li>
+                    <li><a href="<?= $system['twitter'] ?>" target="_blank" title="Twitter">Twitter</a></li>
+                    <li><a href="<?= $system['instagram'] ?>" target="_blank" title="Instagram">Instagram</a></li>
+                    <li><a href="<?= $system['github'] ?>" target="_blank" title="GitHub">GitHub</a></li>
                 </ul>
             </div>
 
