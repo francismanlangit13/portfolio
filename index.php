@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
-    <!-- Title -->
-    <title><? echo $row['name']; ?> | Home</title>
     <?php
         include('includes/header.php');
     ?>
+    <!-- Title -->
+    <title><?= $system['name'] ?></title>
 </head>
 
 <body id="top">
-
-    <div id="preloader">
-        <div id="loader"></div>
-    </div>
 
     <!-- site header
     ================================================== -->
