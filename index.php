@@ -194,22 +194,10 @@
 
             <div class="column item-service" data-aos="fade-up">
                 <div class="item-service__content">
-                    <h4 class="item-title">Brand Identity</h4>
+                    <h4 class="item-title">Editing</h4>
                     <p>
-                    Sit ut cum molestiae. Dolore ducimus qui quasi. Fugiat consequatur sit vel illum vel et 
-                    a delectus. Vel sequi vitae voluptatem perspiciatis eligendi. Voluptatibus optio natus 
-                    asperiores est commodi amet quia architecto. Dolores necessitatibus et.
-                    </p>
-                </div>
-            </div>
-
-            <div class="column item-service" data-aos="fade-up">
-                <div class="item-service__content">
-                    <h4 class="item-title">Illustration</h4>
-                    <p>
-                    Sit ut cum molestiae. Dolore ducimus qui quasi. Fugiat consequatur sit vel illum vel et 
-                    a delectus. Vel sequi vitae voluptatem perspiciatis eligendi. Voluptatibus optio natus 
-                    asperiores est commodi amet quia architecto. Dolores necessitatibus et.
+                        Skilled in photo and video editing, I bring your visuals to life with precision and impact. 
+                        From retouching to color grading, I enhance and transform raw footage into captivating imagery.
                     </p>
                 </div>
             </div>
@@ -218,42 +206,21 @@
                 <div class="item-service__content">
                     <h4 class="item-title">Web Design</h4>
                     <p>
-                    Sit ut cum molestiae. Dolore ducimus qui quasi. Fugiat consequatur sit vel illum vel et 
-                    a delectus. Vel sequi vitae voluptatem perspiciatis eligendi. Voluptatibus optio natus 
-                    asperiores est commodi amet quia architecto. Dolores necessitatibus et.
+                        Crafting captivating web experiences that blend innovation and functionality, 
+                        I specialize in designing visually stunning and user-friendly websites. 
+                        With a keen eye for detail and a deep understanding of user experience, 
+                        I create seamless digital interfaces that engage and delight users. 
                     </p>
                 </div>
             </div>
 
             <div class="column item-service" data-aos="fade-up">
                 <div class="item-service__content">
-                    <h4 class="item-title">Product Strategy</h4>
+                    <h4 class="item-title">Networking</h4>
                     <p>
-                    Sit ut cum molestiae. Dolore ducimus qui quasi. Fugiat consequatur sit vel illum vel et 
-                    a delectus. Vel sequi vitae voluptatem perspiciatis eligendi. Voluptatibus optio natus 
-                    asperiores est commodi amet quia architecto. Dolores necessitatibus et.
-                    </p>
-                </div>
-            </div>
-
-            <div class="column item-service" data-aos="fade-up">
-                <div class="item-service__content">
-                    <h4 class="item-title">UI/UX Design</h4>
-                    <p>
-                    Sit ut cum molestiae. Dolore ducimus qui quasi. Fugiat consequatur sit vel illum vel et 
-                    a delectus. Vel sequi vitae voluptatem perspiciatis eligendi. Voluptatibus optio natus 
-                    asperiores est commodi amet quia architecto. Dolores necessitatibus et.
-                    </p>
-                </div>
-            </div>
-
-            <div class="column item-service" data-aos="fade-up">
-                <div class="item-service__content">
-                    <h4 class="item-title">Mobile Design</h4>
-                    <p>
-                    Sit ut cum molestiae. Dolore ducimus qui quasi. Fugiat consequatur sit vel illum vel et 
-                    a delectus. Vel sequi vitae voluptatem perspiciatis eligendi. Voluptatibus optio natus 
-                    asperiores est commodi amet quia architecto. Dolores necessitatibus et.
+                        Specializing in networking, I design and implement robust solutions to connect and optimize your systems. 
+                        With expertise in network architecture, security, and performance optimization, 
+                        I ensure seamless connectivity and reliable data transmission.
                     </p>
                 </div>
             </div>
@@ -265,53 +232,52 @@
     <!-- styles
     ================================================== -->
     <section id="styles" class="s-works">
-        <div class="column large-12 tab-full">
+        <div class="row half-bottom">
 
-            <h3 class="text-center">Skill Bars</h3>
+            <div class="column large-10 tab-full" style="margin:auto;">
 
-            <ul class="skill-bars">
-                <li>
-                    <div class="progress percent95"><span>92%</span></div>
-                    <strong>PHP</strong>
-                </li>
-                <li>
-                    <div class="progress percent90"><span>90%</span></div>
-                    <strong>HTML5</strong>
-                </li>
-                <li>
-                    <div class="progress percent85"><span>85%</span></div>
-                    <strong>C++</strong>
-                </li>
-                <li>
-                    <div class="progress percent80"><span>80%</span></div>
-                    <strong>CSS</strong>
-                </li>
-                <li>
-                    <div class="progress percent75"><span>73%</span></div>
-                    <strong>Javascript</strong>
-                </li>
-                <li>
-                    <div class="progress percent70"><span>70%</span></div>
-                    <strong>JQuery</strong>
-                </li>
-                <li>
-                    <div class="progress percent60"><span>66%</span></div>
-                    <strong>Editing</strong>
-                </li>
-                <li>
-                    <div class="progress percent40"><span>40%</span></div>
-                    <strong>Flutter</strong>
-                </li>
-                <li>
-                    <div class="progress percent35"><span>35%</span></div>
-                    <strong>Dart</strong>
-                </li>
-                <li>
-                    <div class="progress percent15"><span>12%</span></div>
-                    <strong>Angular JS</strong>
-                </li>
-            </ul>
+                <h3 class="text-center">Skill Bars</h3>
 
+                <ul class="skill-bars">
+                    <li>
+                        <div class="progress percent85"><span>85%</span></div>
+                        <strong>PHP</strong>
+                    </li>
+                    <li>
+                        <div class="progress percent90"><span>87%</span></div>
+                        <strong>HTML5</strong>
+                    </li>
+                    <li>
+                        <div class="progress percent75"><span>81%</span></div>
+                        <strong>C++</strong>
+                    </li>
+                    <li>
+                        <div class="progress percent85"><span>85%</span></div>
+                        <strong>CSS</strong>
+                    </li>
+                    <li>
+                        <div class="progress percent75"><span>73%</span></div>
+                        <strong>Javascript</strong>
+                    </li>
+                    <li>
+                        <div class="progress percent70"><span>70%</span></div>
+                        <strong>JQuery</strong>
+                    </li>
+                    <li>
+                        <div class="progress percent60"><span>66%</span></div>
+                        <strong>Editing</strong>
+                    </li>
+                    <li>
+                        <div class="progress percent40"><span>40%</span></div>
+                        <strong>Flutter</strong>
+                    </li>
+                    <li>
+                        <div class="progress percent35"><span>35%</span></div>
+                        <strong>Dart</strong>
+                    </li>
+                </ul>
+
+            </div>
         </div>
     </section>
 
