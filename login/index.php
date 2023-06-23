@@ -113,6 +113,10 @@
 
         <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
+        <!-- Plugins -->
+        <script src="<?php echo base_url ?>assets/js/sweetalert.js"></script>
+        <script src="<?php echo base_url ?>assets/js/showpass-login.js"></script>
+
         <!-- Vendor JS Files -->
         <script src="<?php echo base_url ?>assets/vendor/apexcharts/apexcharts.min.js"></script>
         <script src="<?php echo base_url ?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
