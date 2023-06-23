@@ -98,7 +98,7 @@
                                                 <button class="btn btn-primary w-100" type="submit">Login</button>
                                             </div>
                                             <div class="col-12">
-                                                <p class="small mb-0">forgot your account? <a href="forgot">Reset your password</a></p>
+                                                <p class="small mb-0">Forgot your account? <a href="forgot">Reset your password</a></p>
                                             </div>
                                         </form>
                                     </div>
