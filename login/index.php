@@ -81,10 +81,11 @@
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <label for="yourPassword" class="form-label">Password</label>
+                                                <label for="password" class="form-label">Password</label>
                                                 <div class="input-group has-validation">
                                                     <span class="input-group-text" id="inputGroupPrepend"><i class="bx bx-dots-horizontal-rounded"></i></span>
-                                                    <input type="password" name="password" class="form-control" id="yourPassword" required>
+                                                    <input type="password" name="password" class="form-control" id="password" required>
+                                                    <span class="input-group-text" id="togglePassword"><i class="bx bxs-hide"></i></span>
                                                     <div class="invalid-feedback">Please enter your password!</div>
                                                 </div>
                                             </div>
@@ -114,6 +115,9 @@
         <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
         <!-- Plugins -->
+        <script>
+            var base_url = "<?php echo base_url ?>"; // global location for javascript
+        </script>
         <script src="<?php echo base_url ?>assets/js/sweetalert.js"></script>
         <script src="<?php echo base_url ?>assets/js/showpass-login.js"></script>
 
