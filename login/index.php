@@ -73,11 +73,11 @@
                                         </div>
                                         <form action="logincode.php" method="POST" class="row g-3 needs-validation" novalidate>
                                             <div class="col-12">
-                                                <label for="yourEmail" class="form-label">Email</label>
+                                                <label for="email" class="form-label">Email</label>
                                                 <div class="input-group has-validation">
                                                     <span class="input-group-text" id="inputGroupPrepend"><i class="bx bxs-envelope"></i></span>
-                                                    <input type="email" name="email" class="form-control" id="yourEmail" required>
-                                                    <div class="invalid-feedback">Please enter your email.</div>
+                                                    <input type="email" name="email" class="form-control" id="email" autocomplete="off" required>
+                                                    <div class="invalid-feedback" id="email-error"></div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
@@ -86,7 +86,7 @@
                                                     <span class="input-group-text" id="inputGroupPrepend"><i class="bx bx-dots-horizontal-rounded"></i></span>
                                                     <input type="password" name="password" class="form-control" id="password" required>
                                                     <span class="input-group-text" id="togglePassword"><i class="bx bxs-hide"></i></span>
-                                                    <div class="invalid-feedback">Please enter your password!</div>
+                                                    <div class="invalid-feedback" id="password-error"></div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
@@ -96,7 +96,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <button class="btn btn-primary w-100" name="login_btn" type="submit">Login</button>
+                                                <button class="btn btn-primary w-100" name="login_btn" id="submit-btn" type="submit">Login</button>
                                             </div>
                                             <div class="col-12">
                                                 <p class="small mb-0">Forgot your account? <a href="forgot">Reset your password</a></p>
@@ -113,6 +113,8 @@
         <!-- End #main -->
 
         <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+        <?php include ('message.php'); ?>
 
         <!-- Plugins -->
         <script>
@@ -131,8 +133,92 @@
         <script src="<?php echo base_url ?>assets/vendor/tinymce/tinymce.min.js"></script>
         <script src="<?php echo base_url ?>assets/vendor/php-email-form/validate.js"></script>
 
+        <!-- Validations forms -->
+        <script src="<?php echo base_url ?>assets/js/jquery-3.2.1.min.js"></script>
+        <script src="<?php echo base_url ?>assets/js/underscore-min.js"></script>
+
         <!-- Template Main JS File -->
         <script src="<?php echo base_url ?>assets/js/main.min.js"></script>
+    
+        <script>
+            $(document).ready(function() {
+                // disable submit button by default
+                //$('#submit-btn').prop('disabled', true);
+
+                // debounce functions for each input field
+                var debouncedCheckEmail = _.debounce(checkEmail, 500);
+                var debouncedCheckPassword = _.debounce(checkPassword, 500);
+
+                // attach event listeners for each input field
+                $('#email').on('input', debouncedCheckEmail);
+                $('#email').on('focusout', checkEmail); // Add focusout event listener
+                $('#email').on('blur', debouncedCheckEmail); // Trigger on input change
+                $('#password').on('input', debouncedCheckPassword);
+                $('#password').on('focusout', checkPassword); // Add focusout event listener
+                $('#password').on('blur', debouncedCheckPassword); // Trigger on input change
+
+                function checkEmail() {
+                    var email = $('#email').val();
+
+                    // show error if email is empty
+                    if (email === '') {
+                        $('#email-error').text('Please input email').css('color', 'red');
+                        $('#email').addClass('is-invalid'); // Update selector to 'email'
+                        $('#submit-btn').prop('disabled', true);
+                        return;
+                    }
+
+                    // check if email format is valid
+                    var emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
+                    if (!emailPattern.test(email)) {
+                        $('#email-error').text('Invalid email format').css('color', 'red');
+                        $('#email').addClass('is-invalid'); // Update selector to 'email'
+                        $('#submit-btn').prop('disabled', true);
+                        return;
+                    }
+
+                    // Clear error if email is valid
+                    $('#email-error').empty();
+                    $('#email').removeClass('is-invalid'); // Update selector to 'email'
+                    $('#email').addClass('is-valid'); // Update selector to 'email'
+                    checkIfAllFieldsValid();
+                }
+
+                function checkPassword() {
+                    var password = $('#password').val();
+
+                    // show error if password is empty
+                    if (password === '') {
+                        $('#password-error').text('Please input password').css('color', 'red');
+                        $('#password').addClass('is-invalid'); // Update selector to 'password'
+                        $('#submit-btn').prop('disabled', true);
+                        return;
+                    }
+
+                    // check if password format is valid
+                    var passwordPattern = /^.{8,}$/i;
+                    if (!passwordPattern.test(password)) {
+                        $('#password-error').text('At least 8 minimum characters').css('color', 'red');
+                        $('#password').addClass('is-invalid'); // Update selector to 'password'
+                        $('#submit-btn').prop('disabled', true);
+                        return;
+                    }
+
+                    // Clear error if password is valid
+                    $('#password-error').empty();
+                    $('#password').removeClass('is-invalid'); // Update selector to 'password'
+                    $('#password').addClass('is-valid'); // Update selector to 'password'
+                    checkIfAllFieldsValid();
+                }
+
+                function checkIfAllFieldsValid() {
+                    // check if all input fields are valid and enable submit button if so
+                    if ($('#email-error').is(':empty') && $('#password-error').is(':empty')) {
+                        $('#submit-btn').prop('disabled', false);
+                    }
+                }
+            });
+        </script>
 
     </body>
 
