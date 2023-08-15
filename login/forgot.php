@@ -71,7 +71,7 @@
                                             <h5 class="card-title text-center pb-0 fs-4">Recover Your Account</h5>
                                             <p class="text-center small">Enter your email to recover your account</p>
                                         </div>
-                                        <form action="logincode.php" method="POST" class="row g-3 needs-validation" novalidate>
+                                        <form action="forgotpasswordcode.php" method="POST" class="row g-3 needs-validation" novalidate>
                                             <div class="col-12">
                                                 <label for="email" class="form-label">Email</label>
                                                 <div class="input-group has-validation">
@@ -81,7 +81,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <button class="btn btn-primary w-100" name="login_btn" id="submit-btn" type="submit">Reset password</button>
+                                                <button class="btn btn-primary w-100" name="forgot_btn" id="submit-btn" type="submit">Reset password</button>
                                             </div>
                                             <div class="col-12">
                                                 <p class="small mb-0">Already an account? <a href="<?php echo base_url ?>login">Login here</a></p>
