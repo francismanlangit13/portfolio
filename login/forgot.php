@@ -21,7 +21,7 @@
         <meta charset="utf-8">
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-        <title><?= $system['name'] ?> | Login</title>
+        <title><?= $system['name'] ?> | Forgot</title>
 
         <!--- basic page needs -->
         <meta charset="utf-8">
@@ -68,8 +68,8 @@
                                 <div class="card mb-3">
                                     <div class="card-body">
                                         <div class="pt-4 pb-2">
-                                            <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
-                                            <p class="text-center small">Enter your email & password to login</p>
+                                            <h5 class="card-title text-center pb-0 fs-4">Recover Your Account</h5>
+                                            <p class="text-center small">Enter your email to recover your account</p>
                                         </div>
                                         <form action="logincode.php" method="POST" class="row g-3 needs-validation" novalidate>
                                             <div class="col-12">
@@ -81,25 +81,10 @@
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <label for="password" class="form-label">Password</label>
-                                                <div class="input-group has-validation">
-                                                    <span class="input-group-text" id="inputGroupPrepend"><i class="bx bx-dots-horizontal-rounded"></i></span>
-                                                    <input type="password" name="password" class="form-control" id="password" required>
-                                                    <span class="input-group-text" id="togglePassword"><i class="bx bxs-hide"></i></span>
-                                                    <div class="invalid-feedback" id="password-error"></div>
-                                                </div>
+                                                <button class="btn btn-primary w-100" name="login_btn" id="submit-btn" type="submit">Reset password</button>
                                             </div>
                                             <div class="col-12">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
-                                                    <label class="form-check-label" for="rememberMe">Remember me</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <button class="btn btn-primary w-100" name="login_btn" id="submit-btn" type="submit">Login</button>
-                                            </div>
-                                            <div class="col-12">
-                                                <p class="small mb-0">Forgot your account? <a href="<?php echo base_url ?>login/forgot">Reset your password</a></p>
+                                                <p class="small mb-0">Already an account? <a href="<?php echo base_url ?>login">Login here</a></p>
                                             </div>
                                         </form>
                                     </div>
@@ -147,15 +132,11 @@
 
                 // debounce functions for each input field
                 var debouncedCheckEmail = _.debounce(checkEmail, 500);
-                var debouncedCheckPassword = _.debounce(checkPassword, 500);
 
                 // attach event listeners for each input field
                 $('#email').on('input', debouncedCheckEmail);
                 $('#email').on('focusout', checkEmail); // Add focusout event listener
                 $('#email').on('blur', debouncedCheckEmail); // Trigger on input change
-                $('#password').on('input', debouncedCheckPassword);
-                $('#password').on('focusout', checkPassword); // Add focusout event listener
-                $('#password').on('blur', debouncedCheckPassword); // Trigger on input change
 
                 function checkEmail() {
                     var email = $('#email').val();
@@ -184,36 +165,9 @@
                     checkIfAllFieldsValid();
                 }
 
-                function checkPassword() {
-                    var password = $('#password').val();
-
-                    // show error if password is empty
-                    if (password === '') {
-                        $('#password-error').text('Please input password').css('color', 'red');
-                        $('#password').addClass('is-invalid'); // Update selector to 'password'
-                        $('#submit-btn').prop('disabled', true);
-                        return;
-                    }
-
-                    // check if password format is valid
-                    var passwordPattern = /^.{8,}$/i;
-                    if (!passwordPattern.test(password)) {
-                        $('#password-error').text('At least 8 minimum characters').css('color', 'red');
-                        $('#password').addClass('is-invalid'); // Update selector to 'password'
-                        $('#submit-btn').prop('disabled', true);
-                        return;
-                    }
-
-                    // Clear error if password is valid
-                    $('#password-error').empty();
-                    $('#password').removeClass('is-invalid'); // Update selector to 'password'
-                    $('#password').addClass('is-valid'); // Update selector to 'password'
-                    checkIfAllFieldsValid();
-                }
-
                 function checkIfAllFieldsValid() {
                     // check if all input fields are valid and enable submit button if so
-                    if ($('#email-error').is(':empty') && $('#password-error').is(':empty')) {
+                    if ($('#email-error').is(':empty')) {
                         $('#submit-btn').prop('disabled', false);
                     }
                 }
