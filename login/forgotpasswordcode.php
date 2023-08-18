@@ -19,6 +19,11 @@
             $fullname = $row['fname']; $row['lname']; $row['suffix'];
             $user_id = $row['user_id'];
 
+            $date = date('Y-m-d H:i:s');
+            $forgot_success = "Request reset password";
+            $forgot_success_log = "success using email";
+            mysqli_query($con,"INSERT INTO user_log (user_id, type, log, logdate) values('".$user_id."','".$forgot_success."','".$forgot_success_log."','$date')");
+
             $expFormat = mktime(date("H"), date("i"), date("s"), date("m")  , date("d")+1, date("Y"));
             $expDate = date("Y-m-d H:i:s",$expFormat);
             $key = md5(2418*2);
@@ -116,6 +121,11 @@
                 foreach($user_query_run as $data){
                     $user_id = $data['user_id'];
                 }
+
+                $date = date('Y-m-d H:i:s');
+                $forgotpassword_success = "Request reset password";
+                $forgotpassword_success_log = "success change new password";
+                mysqli_query($con,"INSERT INTO user_log (user_id, type, log, logdate) values('".$user_id."','".$forgotpassword_success."','".$forgotpassword_success_log."','$date')");
 
                 $_SESSION['status'] = "Password updated successfully";
                 $_SESSION['status_code'] = "success";

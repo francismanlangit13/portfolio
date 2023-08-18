@@ -39,7 +39,7 @@
             $date = date('Y-m-d H:i:s');
             $login_error = "Login";
             $login_error_log = "failed invalid email or password";
-            mysqli_query($con,"INSERT INTO user_log (user_id, type, log, logdate) values('".$user_id."','".$login_success."','".$login_success_log."','$date')");
+            mysqli_query($con,"INSERT INTO user_log (user_id, type, log, logdate) values('".$user_id."','".$login_error."','".$login_error_log."','$date')");
 
             $_SESSION['status'] = "Invalid Email or Password";
             $_SESSION['status_code'] = "error";
