@@ -372,65 +372,110 @@
               <h6>Filter</h6>
             </li>
 
-            <li><a class="dropdown-item" href="#">Today</a></li>
-            <li><a class="dropdown-item" href="#">This Month</a></li>
-            <li><a class="dropdown-item" href="#">This Year</a></li>
+            <li><a class="dropdown-item" href="#" data-section="userlog_today" data-filter-text="Today">Today</a></li>
+            <li><a class="dropdown-item" href="#" data-section="userlog_month" data-filter-text="This Month">This Month</a></li>
+            <li><a class="dropdown-item" href="#" data-section="userlog_year" data-filter-text="This Year">This Year</a></li>
+
           </ul>
         </div>
 
         <div class="card-body">
-          <h5 class="card-title">Recent Activity <span>| Today</span></h5>
+          <h5 class="card-title">User Activity <span id="userlog">| Today</span></h5>
+          
+          <div id="userlog_today" class="activity">
+            <?php
+              $userID = $_SESSION['auth_user'] ['user_id'];
+              $query = "SELECT *, 
+              DATE_FORMAT(user_log.logdate, '%m-%d-%Y') as date_created, 
+              DATE_FORMAT(user_log.logdate, '%h:%i:%s %p') as date_values
+              FROM user_log
+              INNER JOIN user ON user_log.user_id = user.user_id
+              WHERE user_log.user_id = '$userID'
+              ORDER BY user_log.logdate DESC
+              LIMIT 5";
+              $query_run = mysqli_query($con, $query);
+              if(mysqli_num_rows($query_run) > 0){
+                foreach($query_run as $log){
+            ?>
+              <div class="activity-item d-flex">
+                <div class="activite-label"><?= $log['date_created']; ?><br><?= $log['date_values']; ?></div>
+                <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                <div class="activity-content">
+                  <b><?= $log['type']; ?></b> <?= $log['log']; ?>
+                </div>
+              </div><!-- End activity item-->
+            <?php } } else{ ?>
+              <div class="activity-item d-flex">
+                <div class="activity-content">
+                  No logs available.
+                </div>
+              </div><!-- End activity item-->
+            <?php } ?>
+          </div>
 
-          <div class="activity">
+          <div id="userlog_month" style="display:none" class="activity">
+            <?php
+              $userID = $_SESSION['auth_user'] ['user_id'];
+              $query = "SELECT *, 
+              DATE_FORMAT(user_log.logdate, '%m-%d-%Y') as date_created, 
+              DATE_FORMAT(user_log.logdate, '%h:%i:%s %p') as date_values
+              FROM user_log
+              INNER JOIN user ON user_log.user_id = user.user_id
+              WHERE user_log.user_id = '$userID'
+                    AND user_log.logdate >= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)
+                    AND user_log.logdate <= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
+              ORDER BY user_log.logdate DESC
+              LIMIT 5";
+              $query_run = mysqli_query($con, $query);
+              if(mysqli_num_rows($query_run) > 0){
+                foreach($query_run as $log){
+            ?>
+              <div class="activity-item d-flex">
+                <div class="activite-label"><?= $log['date_created']; ?><br><?= $log['date_values']; ?></div>
+                <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                <div class="activity-content">
+                  <b><?= $log['type']; ?></b> <?= $log['log']; ?>
+                </div>
+              </div><!-- End activity item-->
+            <?php } } else{ ?>
+              <div class="activity-item d-flex">
+                <div class="activity-content">
+                  No logs available.
+                </div>
+              </div><!-- End activity item-->
+            <?php } ?>
+          </div>
 
-            <div class="activity-item d-flex">
-              <div class="activite-label">32 min</div>
-              <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-              <div class="activity-content">
-                Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
-              </div>
-            </div><!-- End activity item-->
-
-            <div class="activity-item d-flex">
-              <div class="activite-label">56 min</div>
-              <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-              <div class="activity-content">
-                Voluptatem blanditiis blanditiis eveniet
-              </div>
-            </div><!-- End activity item-->
-
-            <div class="activity-item d-flex">
-              <div class="activite-label">2 hrs</div>
-              <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-              <div class="activity-content">
-                Voluptates corrupti molestias voluptatem
-              </div>
-            </div><!-- End activity item-->
-
-            <div class="activity-item d-flex">
-              <div class="activite-label">1 day</div>
-              <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
-              <div class="activity-content">
-                Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
-              </div>
-            </div><!-- End activity item-->
-
-            <div class="activity-item d-flex">
-              <div class="activite-label">2 days</div>
-              <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-              <div class="activity-content">
-                Est sit eum reiciendis exercitationem
-              </div>
-            </div><!-- End activity item-->
-
-            <div class="activity-item d-flex">
-              <div class="activite-label">4 weeks</div>
-              <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
-              <div class="activity-content">
-                Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
-              </div>
-            </div><!-- End activity item-->
-
+          <div id="userlog_year" style="display:none" class="activity">
+            <?php
+              $userID = $_SESSION['auth_user'] ['user_id'];
+              $query = "SELECT *, 
+              DATE_FORMAT(user_log.logdate, '%m-%d-%Y') as date_created, 
+              DATE_FORMAT(user_log.logdate, '%h:%i:%s %p') as date_values
+              FROM user_log
+              INNER JOIN user ON user_log.user_id = user.user_id
+              WHERE user_log.user_id = '$userID'
+                    AND YEAR(user_log.logdate) = YEAR(CURDATE()) - 1
+              ORDER BY user_log.logdate DESC
+              LIMIT 5";
+              $query_run = mysqli_query($con, $query);
+              if(mysqli_num_rows($query_run) > 0){
+                foreach($query_run as $log){
+            ?>
+              <div class="activity-item d-flex">
+                <div class="activite-label"><?= $log['date_created']; ?><br><?= $log['date_values']; ?></div>
+                <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                <div class="activity-content">
+                  <b><?= $log['type']; ?></b> <?= $log['log']; ?>
+                </div>
+              </div><!-- End activity item-->
+            <?php } } else{ ?>
+              <div class="activity-item d-flex">
+                <div class="activity-content">
+                  No logs available.
+                </div>
+              </div><!-- End activity item-->
+            <?php } ?>
           </div>
 
         </div>
@@ -651,3 +696,32 @@
 <?php
     include('../includes/footer.php');
 ?>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Restore the selected filter from localStorage
+    var savedFilter = localStorage.getItem('selectedFilter');
+    if (savedFilter) {
+        $(".activity").hide();
+        $("#" + savedFilter).show();
+        $(".card-title span").text("| " + $("#" + savedFilter).data("filter-text"));
+    }
+
+    $(".dropdown-item").click(function() {
+        // Hide all sections
+        $(".activity").hide();
+
+        // Show the selected section based on the clicked filter
+        var targetSection = $(this).attr("data-section");
+        $("#" + targetSection).show();
+
+        // Update the card title based on the clicked filter
+        var filterText = $(this).data("filter-text"); // Corrected line
+        $(".card-title span").text("| " + filterText);
+
+        // Save the selected filter in localStorage
+        localStorage.setItem('selectedFilter', targetSection);
+    });
+});
+</script>
