@@ -1,288 +1,321 @@
-/* ===================================================================
- * Epitome - Main JS
- *
- * ------------------------------------------------------------------- */
+/**
+* Template Name: NiceAdmin
+* Updated: May 30 2023 with Bootstrap v5.3.0
+* Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+* Author: BootstrapMade.com
+* License: https://bootstrapmade.com/license/
+*/
+(function() {
+  "use strict";
 
-(function($) {
+  /**
+   * Easy selector helper function
+   */
+  const select = (el, all = false) => {
+    el = el.trim()
+    if (all) {
+      return [...document.querySelectorAll(el)]
+    } else {
+      return document.querySelector(el)
+    }
+  }
 
-    "use strict";
-    
-    var cfg = {
-        scrollDuration : 800, // smoothscroll duration
-        mailChimpURL   : ''   // mailchimp url
-    },
+  /**
+   * Easy event listener function
+   */
+  const on = (type, el, listener, all = false) => {
+    if (all) {
+      select(el, all).forEach(e => e.addEventListener(type, listener))
+    } else {
+      select(el, all).addEventListener(type, listener)
+    }
+  }
 
-    $WIN = $(window);
+  /**
+   * Easy on scroll event listener 
+   */
+  const onscroll = (el, listener) => {
+    el.addEventListener('scroll', listener)
+  }
 
-    // Add the User Agent to the <html>
-    // will be used for IE10/IE11 detection (Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0; rv:11.0))
-    var doc = document.documentElement;
-    doc.setAttribute('data-useragent', navigator.userAgent);
+  /**
+   * Sidebar toggle
+   */
+  if (select('.toggle-sidebar-btn')) {
+    on('click', '.toggle-sidebar-btn', function(e) {
+      select('body').classList.toggle('toggle-sidebar')
+    })
+  }
 
+  /**
+   * Search bar toggle
+   */
+  if (select('.search-bar-toggle')) {
+    on('click', '.search-bar-toggle', function(e) {
+      select('.search-bar').classList.toggle('search-bar-show')
+    })
+  }
 
-   /* Preloader
-    * -------------------------------------------------- */
-    var ssPreloader = function() {
-        
-        $("html").addClass('ss-preload');
+  /**
+   * Navbar links active state on scroll
+   */
+  let navbarlinks = select('#navbar .scrollto', true)
+  const navbarlinksActive = () => {
+    let position = window.scrollY + 200
+    navbarlinks.forEach(navbarlink => {
+      if (!navbarlink.hash) return
+      let section = select(navbarlink.hash)
+      if (!section) return
+      if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
+        navbarlink.classList.add('active')
+      } else {
+        navbarlink.classList.remove('active')
+      }
+    })
+  }
+  window.addEventListener('load', navbarlinksActive)
+  onscroll(document, navbarlinksActive)
 
-        $WIN.on('load', function() {
+  /**
+   * Toggle .header-scrolled class to #header when page is scrolled
+   */
+  let selectHeader = select('#header')
+  if (selectHeader) {
+    const headerScrolled = () => {
+      if (window.scrollY > 100) {
+        selectHeader.classList.add('header-scrolled')
+      } else {
+        selectHeader.classList.remove('header-scrolled')
+      }
+    }
+    window.addEventListener('load', headerScrolled)
+    onscroll(document, headerScrolled)
+  }
 
-            //force page scroll position to top at page refresh
-            $('html, body').animate({ scrollTop: 0 }, 'normal');
+  /**
+   * Back to top button
+   */
+  let backtotop = select('.back-to-top')
+  if (backtotop) {
+    const toggleBacktotop = () => {
+      if (window.scrollY > 100) {
+        backtotop.classList.add('active')
+      } else {
+        backtotop.classList.remove('active')
+      }
+    }
+    window.addEventListener('load', toggleBacktotop)
+    onscroll(document, toggleBacktotop)
+  }
 
-            // will first fade out the loading animation 
-            $("#loader").fadeOut("slow", function() {
-                // will fade out the whole DIV that covers the website.
-                $("#preloader").delay(300).fadeOut("slow");
-            }); 
-            
-            // for hero content animations 
-            $("html").removeClass('ss-preload');
-            $("html").addClass('ss-loaded');
-        
-        });
-    };
+  /**
+   * Initiate tooltips
+   */
+  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+  var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+  })
 
+  /**
+   * Initiate quill editors
+   */
+  if (select('.quill-editor-default')) {
+    new Quill('.quill-editor-default', {
+      theme: 'snow'
+    });
+  }
 
-   /* Menu on Scrolldown
-    * ------------------------------------------------------ */
-    var ssMenuOnScrolldown = function() {
-        
-        var hdr = $('.s-header'),
-            hdrTop = $('.s-header').offset().top;
+  if (select('.quill-editor-bubble')) {
+    new Quill('.quill-editor-bubble', {
+      theme: 'bubble'
+    });
+  }
 
-        $WIN.on('scroll', function() {
-
-            if ($WIN.scrollTop() > hdrTop) {
-                hdr.addClass('sticky');
-            }
-            else {
-                hdr.removeClass('sticky');
-            }
-
-        });
-    };
-
-
-   /* Mobile Menu
-    * ---------------------------------------------------- */ 
-    var ssMobileMenu = function() {
-
-        var toggleButton = $('.header-menu-toggle'),
-            nav = $('.header-nav-wrap');
-
-        toggleButton.on('click', function(event){
-            event.preventDefault();
-
-            toggleButton.toggleClass('is-clicked');
-            nav.slideToggle();
-        });
-
-        if (toggleButton.is(':visible')) nav.addClass('mobile');
-
-        $WIN.on('resize', function() {
-            if (toggleButton.is(':visible')) nav.addClass('mobile');
-            else nav.removeClass('mobile');
-        });
-
-        nav.find('a').on("click", function() {
-
-            if (nav.hasClass('mobile')) {
-                toggleButton.toggleClass('is-clicked');
-                nav.slideToggle(); 
-            }
-        });
-
-    };
-
-   /* Highlight the current section in the navigation bar
-    * ------------------------------------------------------ */
-    var ssWaypoints = function() {
-
-        var sections = $(".target-section"),
-            navigation_links = $(".header-main-nav li a");
-
-        sections.waypoint( {
-
-            handler: function(direction) {
-
-                var active_section;
-
-                active_section = $('section#' + this.element.id);
-
-                if (direction === "up") active_section = active_section.prevAll(".target-section").first();
-
-                var active_link = $('.header-main-nav li a[href="#' + active_section.attr("id") + '"]');
-
-                navigation_links.parent().removeClass("current");
-                active_link.parent().addClass("current");
-
+  if (select('.quill-editor-full')) {
+    new Quill(".quill-editor-full", {
+      modules: {
+        toolbar: [
+          [{
+            font: []
+          }, {
+            size: []
+          }],
+          ["bold", "italic", "underline", "strike"],
+          [{
+              color: []
             },
-
-            offset: '25%'
-
-        });
-        
-    };
-
-
-   /* Masonry
-    * ---------------------------------------------------- */ 
-    var ssMasonryFolio = function () {
-        
-        var containerBricks = $('.masonry');
-
-        containerBricks.imagesLoaded(function () {
-            containerBricks.masonry({
-                itemSelector: '.masonry__brick',
-                resize: true
-            });
-        });
-
-    };
-
-
-   /* photoswipe
-    * ----------------------------------------------------- */
-    var ssPhotoswipe = function() {
-        var items = [],
-            $pswp = $('.pswp')[0],
-            $folioItems = $('.item-folio');
-
-        // get items
-        $folioItems.each( function(i) {
-
-            var $folio = $(this),
-                $thumbLink =  $folio.find('.thumb-link'),
-                $title = $folio.find('.item-folio__title'),
-                $caption = $folio.find('.item-folio__caption'),
-                $titleText = '<h4>' + $.trim($title.html()) + '</h4>',
-                $captionText = $.trim($caption.html()),
-                $href = $thumbLink.attr('href'),
-                $size = $thumbLink.data('size').split('x'),
-                $width  = $size[0],
-                $height = $size[1];
-        
-            var item = {
-                src  : $href,
-                w    : $width,
-                h    : $height
+            {
+              background: []
             }
-
-            if ($caption.length > 0) {
-                item.title = $.trim($titleText + $captionText);
+          ],
+          [{
+              script: "super"
+            },
+            {
+              script: "sub"
             }
+          ],
+          [{
+              list: "ordered"
+            },
+            {
+              list: "bullet"
+            },
+            {
+              indent: "-1"
+            },
+            {
+              indent: "+1"
+            }
+          ],
+          ["direction", {
+            align: []
+          }],
+          ["link", "image", "video"],
+          ["clean"]
+        ]
+      },
+      theme: "snow"
+    });
+  }
 
-            items.push(item);
+  /**
+   * Initiate TinyMCE Editor
+   */
+  const useDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const isSmallScreen = window.matchMedia('(max-width: 1023.5px)').matches;
+
+  tinymce.init({
+    selector: 'textarea.tinymce-editor',
+    plugins: 'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons',
+    editimage_cors_hosts: ['picsum.photos'],
+    menubar: 'file edit view insert format tools table help',
+    toolbar: 'undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
+    toolbar_sticky: true,
+    toolbar_sticky_offset: isSmallScreen ? 102 : 108,
+    autosave_ask_before_unload: true,
+    autosave_interval: '30s',
+    autosave_prefix: '{path}{query}-{id}-',
+    autosave_restore_when_empty: false,
+    autosave_retention: '2m',
+    image_advtab: true,
+    link_list: [{
+        title: 'My page 1',
+        value: 'https://www.tiny.cloud'
+      },
+      {
+        title: 'My page 2',
+        value: 'http://www.moxiecode.com'
+      }
+    ],
+    image_list: [{
+        title: 'My page 1',
+        value: 'https://www.tiny.cloud'
+      },
+      {
+        title: 'My page 2',
+        value: 'http://www.moxiecode.com'
+      }
+    ],
+    image_class_list: [{
+        title: 'None',
+        value: ''
+      },
+      {
+        title: 'Some class',
+        value: 'class-name'
+      }
+    ],
+    importcss_append: true,
+    file_picker_callback: (callback, value, meta) => {
+      /* Provide file and text for the link dialog */
+      if (meta.filetype === 'file') {
+        callback('https://www.google.com/logos/google.jpg', {
+          text: 'My text'
         });
+      }
 
-        // bind click event
-        $folioItems.each(function(i) {
-
-            $(this).find('.thumb-link').on('click', function(e) {
-                e.preventDefault();
-                var options = {
-                    index: i,
-                    showHideOpacity: true
-                }
-
-                // initialize PhotoSwipe
-                var lightBox = new PhotoSwipe($pswp, PhotoSwipeUI_Default, items, options);
-                lightBox.init();
-            });
-
+      /* Provide image and alt text for the image dialog */
+      if (meta.filetype === 'image') {
+        callback('https://www.google.com/logos/google.jpg', {
+          alt: 'My alt text'
         });
-    };
+      }
 
-
-   /* slick slider
-    * ------------------------------------------------------ */
-    var ssSlickSlider = function() {
-        
-        $('.testimonials__slider').slick({
-            arrows: false,
-            dots: true,
-            infinite: true,
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            pauseOnFocus: false,
-            autoplaySpeed: 1500,
-            fade: true,
-            cssEase: 'linear'
+      /* Provide alternative source and posted for the media dialog */
+      if (meta.filetype === 'media') {
+        callback('movie.mp4', {
+          source2: 'alt.ogg',
+          poster: 'https://www.google.com/logos/google.jpg'
         });
-    };
+      }
+    },
+    templates: [{
+        title: 'New Table',
+        description: 'creates a new table',
+        content: '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>'
+      },
+      {
+        title: 'Starting my story',
+        description: 'A cure for writers block',
+        content: 'Once upon a time...'
+      },
+      {
+        title: 'New list with dates',
+        description: 'New List with dates',
+        content: '<div class="mceTmpl"><span class="cdate">cdate</span><br><span class="mdate">mdate</span><h2>My List</h2><ul><li></li><li></li></ul></div>'
+      }
+    ],
+    template_cdate_format: '[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]',
+    template_mdate_format: '[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]',
+    height: 600,
+    image_caption: true,
+    quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+    noneditable_class: 'mceNonEditable',
+    toolbar_mode: 'sliding',
+    contextmenu: 'link image table',
+    skin: useDarkMode ? 'oxide-dark' : 'oxide',
+    content_css: useDarkMode ? 'dark' : 'default',
+    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'
+  });
 
+  /**
+   * Initiate Bootstrap validation check
+   */
+  var needsValidation = document.querySelectorAll('.needs-validation')
 
-   /* Smooth Scrolling
-    * ------------------------------------------------------ */
-    var ssSmoothScroll = function() {
-        
-        $('.smoothscroll').on('click', function (e) {
-            var target = this.hash,
-            $target    = $(target);
-            
-                e.preventDefault();
-                e.stopPropagation();
+  Array.prototype.slice.call(needsValidation)
+    .forEach(function(form) {
+      form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
 
-            $('html, body').stop().animate({
-                'scrollTop': $target.offset().top
-            }, cfg.scrollDuration, 'swing').promise().done(function () {
+        form.classList.add('was-validated')
+      }, false)
+    })
 
-                // check if menu is open
-                if ($('body').hasClass('menu-is-open')) {
-                    $('.header-menu-toggle').trigger('click');
-                }
+  /**
+   * Initiate Datatables
+   */
+  const datatables = select('.datatable', true)
+  datatables.forEach(datatable => {
+    new simpleDatatables.DataTable(datatable);
+  })
 
-                window.location.hash = target;
-            });
-        });
+  /**
+   * Autoresize echart charts
+   */
+  const mainContainer = select('#main');
+  if (mainContainer) {
+    setTimeout(() => {
+      new ResizeObserver(function() {
+        select('.echart', true).forEach(getEchart => {
+          echarts.getInstanceByDom(getEchart).resize();
+        })
+      }).observe(mainContainer);
+    }, 200);
+  }
 
-    };
-
-
-   /* Alert Boxes
-    * ------------------------------------------------------ */
-    var ssAlertBoxes = function() {
-
-        $('.alert-box').on('click', '.alert-box__close', function() {
-            $(this).parent().fadeOut(500);
-        }); 
-
-    };
-
-
-   /* Animate On Scroll
-    * ------------------------------------------------------ */
-    var ssAOS = function() {
-        
-        AOS.init( {
-            offset: 200,
-            duration: 600,
-            easing: 'ease-in-sine',
-            delay: 300,
-            once: true,
-            disable: 'mobile'
-        });
-
-    };
-
-
-   /* Initialize
-    * ------------------------------------------------------ */
-    (function clInit() {
-
-        ssPreloader();
-        ssMenuOnScrolldown();
-        ssMobileMenu();
-        ssWaypoints();
-        ssMasonryFolio();
-        ssPhotoswipe();
-        ssSlickSlider();
-        ssSmoothScroll();
-        ssAlertBoxes();
-        ssAOS();
-
-    })();
-
-})(jQuery);
+})();

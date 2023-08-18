@@ -12,9 +12,11 @@
             foreach($login_query_run as $data){
                 $user_id = $data['user_id'];
                 $full_name = $data['fname'].' '.$data['lname'];
+                $user_type = $data['user_type_id'];
             }
 
             $_SESSION['auth'] = true;
+            $_SESSION['auth_role'] = "$user_type";
             $_SESSION['auth_user'] = [
                 'user_id' =>$user_id,
                 'user_name' =>$full_name,
