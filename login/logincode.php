@@ -27,7 +27,7 @@
                 'user_name' =>$full_name,
             ];
 
-            if($_SESSION['auth'] == true){
+            if( $_SESSION['auth_role'] == '1'){
                 $_SESSION['status'] = "Welcome $full_name!";
                 $_SESSION['status_code'] = "success";
                 header("Location: " . base_url . "admin");

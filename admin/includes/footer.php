@@ -23,6 +23,9 @@
         <!-- Template Main JS File -->
         <script src="<?php echo base_url ?>assets/js/main.js"></script>
 
+        <!-- Sweetalert JS File -->
+        <script src="<?php echo base_url ?>assets/js/sweetalert.js"></script>
+
         <!-- Loader JS File -->
         <script src="<?php echo base_url ?>assets/js/loader.js"></script>
     </body>
