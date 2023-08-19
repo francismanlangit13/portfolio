@@ -380,10 +380,11 @@
         </div>
 
         <div class="card-body">
-          <h5 class="card-title">User Activity <span id="userlog">| Today</span></h5>
           
           <div id="userlog_today" class="activity">
+            <h5 class="card-title">User Activity <span id="userlog">| <span id="filterValue">Today</span></span></h5>
             <?php
+              $date = date('Y-m-d');
               $userID = $_SESSION['auth_user'] ['user_id'];
               $query = "SELECT *, 
               DATE_FORMAT(user_log.logdate, '%m-%d-%Y') as date_created, 
@@ -391,6 +392,7 @@
               FROM user_log
               INNER JOIN user ON user_log.user_id = user.user_id
               WHERE user_log.user_id = '$userID'
+                    AND DATE(user_log.logdate) = '$date'
               ORDER BY user_log.logdate DESC
               LIMIT 5";
               $query_run = mysqli_query($con, $query);
@@ -414,6 +416,7 @@
           </div>
 
           <div id="userlog_month" style="display:none" class="activity">
+            <h5 class="card-title">User Activity <span id="userlog">| <span id="filterValue">Month</span></span></h5>
             <?php
               $userID = $_SESSION['auth_user'] ['user_id'];
               $query = "SELECT *, 
@@ -422,8 +425,8 @@
               FROM user_log
               INNER JOIN user ON user_log.user_id = user.user_id
               WHERE user_log.user_id = '$userID'
-                    AND user_log.logdate >= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)
-                    AND user_log.logdate <= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
+              AND user_log.logdate >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+              AND user_log.logdate < CURDATE()
               ORDER BY user_log.logdate DESC
               LIMIT 5";
               $query_run = mysqli_query($con, $query);
@@ -432,7 +435,7 @@
             ?>
               <div class="activity-item d-flex">
                 <div class="activite-label"><?= $log['date_created']; ?><br><?= $log['date_values']; ?></div>
-                <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
                 <div class="activity-content">
                   <b><?= $log['type']; ?></b> <?= $log['log']; ?>
                 </div>
@@ -447,6 +450,7 @@
           </div>
 
           <div id="userlog_year" style="display:none" class="activity">
+            <h5 class="card-title">User Activity <span id="userlog">| <span id="filterValue">Year</span></span></h5>
             <?php
               $userID = $_SESSION['auth_user'] ['user_id'];
               $query = "SELECT *, 
@@ -464,7 +468,7 @@
             ?>
               <div class="activity-item d-flex">
                 <div class="activite-label"><?= $log['date_created']; ?><br><?= $log['date_values']; ?></div>
-                <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
                 <div class="activity-content">
                   <b><?= $log['type']; ?></b> <?= $log['log']; ?>
                 </div>
@@ -699,29 +703,30 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function() {
-    // Restore the selected filter from localStorage
-    var savedFilter = localStorage.getItem('selectedFilter');
-    if (savedFilter) {
-        $(".activity").hide();
-        $("#" + savedFilter).show();
-        $(".card-title span").text("| " + $("#" + savedFilter).data("filter-text"));
-    }
+  $(document).ready(function() {
+      // Restore the selected filter from localStorage
+      var savedFilter = localStorage.getItem('selectedFilter');
+      if (savedFilter) {
+          $(".activity").hide();
+          $("#" + savedFilter).show();
+          var filterText = $("#" + savedFilter).data("filter-text");
+          $("#filterValue").text(filterText);
+      }
 
-    $(".dropdown-item").click(function() {
-        // Hide all sections
-        $(".activity").hide();
+      $(".dropdown-item").click(function() {
+          // Hide all sections
+          $(".activity").hide();
 
-        // Show the selected section based on the clicked filter
-        var targetSection = $(this).attr("data-section");
-        $("#" + targetSection).show();
+          // Show the selected section based on the clicked filter
+          var targetSection = $(this).attr("data-section");
+          $("#" + targetSection).show();
 
-        // Update the card title based on the clicked filter
-        var filterText = $(this).data("filter-text"); // Corrected line
-        $(".card-title span").text("| " + filterText);
+          // Update the card title based on the clicked filter
+          var filterText = $(this).attr("data-filter-text");
+          $("#filterValue").text(filterText);
 
-        // Save the selected filter in localStorage
-        localStorage.setItem('selectedFilter', targetSection);
-    });
-});
+          // Save the selected filter in localStorage
+          localStorage.setItem('selectedFilter', targetSection);
+      });
+  });
 </script>
