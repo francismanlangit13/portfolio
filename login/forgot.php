@@ -34,6 +34,8 @@
         <link rel="icon" type="image/png" sizes="32x32" href="<?php echo base_url ?>assets/images/favicon/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url ?>assets/images/favicon/favicon-16x16.png">
 
+        <link href="<?php echo base_url ?>assets/css/loader.css" rel="stylesheet">
+
         <!-- Google Fonts -->
         <link href="https://fonts.gstatic.com" rel="preconnect">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -52,6 +54,10 @@
     </head>
 
     <body>
+        <!-- Loading Screen -->
+        <div class="noprint-scroll" id="loading">
+            <img id="loading-image" src="<?php echo base_url ?>assets/images/system/loading.gif" alt="Loading" />
+        </div>
         <main>
             <div class="container">
                 <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
@@ -124,6 +130,9 @@
 
         <!-- Template Main JS File -->
         <script src="<?php echo base_url ?>assets/js/main.min.js"></script>
+
+        <!-- Loader JS File -->
+        <script src="<?php echo base_url ?>assets/js/loader.js"></script>
     
         <script>
             $(document).ready(function() {
