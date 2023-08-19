@@ -43,4 +43,5 @@
     <?php
         include('nav-top.php');
         include('sidebar.php');
+        include('message.php');
     ?>

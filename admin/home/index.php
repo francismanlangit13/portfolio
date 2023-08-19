@@ -485,80 +485,6 @@
         </div>
       </div><!-- End Recent Activity -->
 
-      <!-- Budget Report -->
-      <div class="card">
-        <div class="filter">
-          <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-            <li class="dropdown-header text-start">
-              <h6>Filter</h6>
-            </li>
-
-            <li><a class="dropdown-item" href="#">Today</a></li>
-            <li><a class="dropdown-item" href="#">This Month</a></li>
-            <li><a class="dropdown-item" href="#">This Year</a></li>
-          </ul>
-        </div>
-
-        <div class="card-body pb-0">
-          <h5 class="card-title">Budget Report <span>| This Month</span></h5>
-
-          <div id="budgetChart" style="min-height: 400px;" class="echart"></div>
-
-          <script>
-            document.addEventListener("DOMContentLoaded", () => {
-              var budgetChart = echarts.init(document.querySelector("#budgetChart")).setOption({
-                legend: {
-                  data: ['Allocated Budget', 'Actual Spending']
-                },
-                radar: {
-                  // shape: 'circle',
-                  indicator: [{
-                      name: 'Sales',
-                      max: 6500
-                    },
-                    {
-                      name: 'Administration',
-                      max: 16000
-                    },
-                    {
-                      name: 'Information Technology',
-                      max: 30000
-                    },
-                    {
-                      name: 'Customer Support',
-                      max: 38000
-                    },
-                    {
-                      name: 'Development',
-                      max: 52000
-                    },
-                    {
-                      name: 'Marketing',
-                      max: 25000
-                    }
-                  ]
-                },
-                series: [{
-                  name: 'Budget vs spending',
-                  type: 'radar',
-                  data: [{
-                      value: [4200, 3000, 20000, 35000, 50000, 18000],
-                      name: 'Allocated Budget'
-                    },
-                    {
-                      value: [5000, 14000, 28000, 26000, 42000, 21000],
-                      name: 'Actual Spending'
-                    }
-                  ]
-                }]
-              });
-            });
-          </script>
-
-        </div>
-      </div><!-- End Budget Report -->
-
       <!-- Website Traffic -->
       <div class="card">
         <div class="filter">
@@ -576,7 +502,26 @@
 
         <div class="card-body pb-0">
           <h5 class="card-title">Website Traffic <span>| Today</span></h5>
-
+          <?php
+            $query = "SELECT 
+              SUM(CASE WHEN type = 'Visit' THEN 1 ELSE 0 END) AS visit_count,
+              SUM(CASE WHEN type = 'Click' THEN 1 ELSE 0 END) AS click_count,
+              SUM(CASE WHEN type = 'Resume' THEN 1 ELSE 0 END) AS resume_count,
+              SUM(CASE WHEN type = 'Email' THEN 1 ELSE 0 END) AS email_count,
+              SUM(CASE WHEN type = 'Phone' THEN 1 ELSE 0 END) AS phone_count
+              FROM system_statistics
+              WHERE DATE(system_statistics.date) = '$date'";
+            $result = $con->query($query);
+            if (!$result) {
+                die('Query Error: ' . $mysqli->error);
+            }
+            $row = $result->fetch_assoc();
+            $visit_count = $row['visit_count'];
+            $click_count = $row['click_count'];
+            $resume_count = $row['resume_count'];
+            $email_count = $row['email_count'];
+            $phone_count = $row['phone_count'];
+          ?>
           <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
 
           <script>
@@ -609,24 +554,24 @@
                     show: false
                   },
                   data: [{
-                      value: 1048,
+                      value: <?php echo $visit_count ?>,
                       name: 'Search Engine'
                     },
                     {
-                      value: 735,
-                      name: 'Direct'
+                      value: <?php echo $click_count ?>,
+                      name: 'Project Visited'
                     },
                     {
-                      value: 580,
-                      name: 'Email'
+                      value: <?php echo $resume_count ?>,
+                      name: 'Download Resume'
                     },
                     {
-                      value: 484,
-                      name: 'Union Ads'
+                      value: <?php echo $email_count ?>,
+                      name: 'Email Clicks'
                     },
                     {
-                      value: 300,
-                      name: 'Video Ads'
+                      value: <?php echo $phone_count ?>,
+                      name: 'Phone Clicks'
                     }
                   ]
                 }]

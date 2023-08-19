@@ -69,11 +69,11 @@
     
             <div class="row about-me__buttons">
                 <div class="column large-half tab-full" data-aos="fade-up">
-                    <a href="mailto:<?= $system['email'] ?>" class="btn btn--stroke full-width">Hire Me</a>
+                    <button class="btn btn--stroke full-width" onclick="sendEmail()">Hire Me</button>
                 </div>
                 <div class="column large-half tab-full" data-aos="fade-up">
-                    <form action="<?= base_url . 'assets/docs/' . $system['resume'] ?>" method="POST">
-                        <button class="btn btn--primary full-width" download>Download Resume</button>
+                    <form action="code.php" method="POST">
+                        <button name="resume" class="btn btn--primary full-width" download>Download Resume</button>
                     </form>
                 </div>
             </div>
@@ -435,7 +435,7 @@
                 <p class="section-desc">
                 I'm happy to connect, listen and help. Let's work together and build
                 something awesome. Let's turn your idea to an even greater product.
-                <a href="mailto:<?= $system['email'] ?>">Email Me</a>.
+                <a href="javascript:void(0)"onclick="sendEmail()">Email Me</a>.
                 </p>
             </div>
         </div>
@@ -444,7 +444,7 @@
 
             <div class="column large-5 medium-full contact-phone">
                 <h4>Call Me</h4>
-                <a href="tel:<?= $system['number'] ?>"><?= $system['number'] ?></a>
+                <a href="javascript:void(0)"onclick="sendPhone()"><?= $system['number'] ?></a>
             </div>
 
             <div class="column large-7 medium-full contact-social">
@@ -514,3 +514,59 @@
     ?>
 
 </body>
+
+<script>
+    function sendEmail() {
+        var email = "<?= $system['email'] ?>"; // Replace with the actual email address
+        
+        // Construct the mailto link
+        var mailtoLink = "mailto:" + encodeURIComponent(email);
+        
+        // Open the email client
+        window.location.href = mailtoLink;
+
+        // Get the current date and time
+        var currentDate = new Date();
+        var formattedDate = currentDate.toISOString(); // Format as YYYY-MM-DD HH:MM:SS
+
+        // Perform an AJAX request to log the email sending to the server
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "code.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                console.log("Request email success");
+            }
+        };
+        var postData = "email=" + encodeURIComponent(email) + "&date=" + encodeURIComponent(formattedDate);
+        xhr.send(postData);
+    }
+</script>
+
+<script>
+    function sendPhone() {
+        var phone = "<?= $system['number'] ?>"; // Replace with the actual phone number
+        
+        // Construct the tel link
+        var telLink = "tel:" + encodeURIComponent(phone);
+        
+        // Open the phone client
+        window.location.href = telLink;
+
+        // Get the current date and time
+        var currentDate = new Date();
+        var formattedDate = currentDate.toISOString(); // Format as YYYY-MM-DD HH:MM:SS
+
+        // Perform an AJAX request to log the phone sending to the server
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "code.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                console.log("Phone log success");
+            }
+        };
+        var postData = "phone=" + encodeURIComponent(phone) + "&date=" + encodeURIComponent(formattedDate);
+        xhr.send(postData);
+    }
+</script>
