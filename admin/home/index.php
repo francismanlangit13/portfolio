@@ -372,9 +372,9 @@
               <h6>Filter</h6>
             </li>
 
-            <li><a class="dropdown-item" href="#" data-section="userlog_today" data-filter-text="Today">Today</a></li>
-            <li><a class="dropdown-item" href="#" data-section="userlog_month" data-filter-text="This Month">This Month</a></li>
-            <li><a class="dropdown-item" href="#" data-section="userlog_year" data-filter-text="This Year">This Year</a></li>
+            <li><a class="dropdown-item user-activity" href="javascript:void(0)" data-section="userlog_today">Today</a></li>
+            <li><a class="dropdown-item user-activity" href="javascript:void(0)" data-section="userlog_month">This Month</a></li>
+            <li><a class="dropdown-item user-activity" href="javascript:void(0)" data-section="userlog_year">This Year</a></li>
 
           </ul>
         </div>
@@ -494,16 +494,17 @@
               <h6>Filter</h6>
             </li>
 
-            <li><a class="dropdown-item" href="#">Today</a></li>
-            <li><a class="dropdown-item" href="#">This Month</a></li>
-            <li><a class="dropdown-item" href="#">This Year</a></li>
+            <li><a class="dropdown-item web-activity" href="javascript:void(0)" data-section="weblog_today">Today</a></li>
+            <li><a class="dropdown-item web-activity" href="javascript:void(0)" data-section="weblog_month">This Month</a></li>
+            <li><a class="dropdown-item web-activity" href="javascript:void(0)" data-section="weblog_year">This Year</a></li>
           </ul>
         </div>
 
         <div class="card-body pb-0">
-          <h5 class="card-title">Website Traffic <span>| Today</span></h5>
-          <?php
-            $query = "SELECT 
+          <div id="weblog_today" class="graph">
+            <h5 class="card-title">Website Traffic <span>| Today</span></h5>
+            <?php
+              $query = "SELECT 
               SUM(CASE WHEN type = 'Visit' THEN 1 ELSE 0 END) AS visit_count,
               SUM(CASE WHEN type = 'Click' THEN 1 ELSE 0 END) AS click_count,
               SUM(CASE WHEN type = 'Resume' THEN 1 ELSE 0 END) AS resume_count,
@@ -511,74 +512,154 @@
               SUM(CASE WHEN type = 'Phone' THEN 1 ELSE 0 END) AS phone_count
               FROM system_statistics
               WHERE DATE(system_statistics.date) = '$date'";
-            $result = $con->query($query);
-            if (!$result) {
-                die('Query Error: ' . $mysqli->error);
-            }
-            $row = $result->fetch_assoc();
-            $visit_count = $row['visit_count'];
-            $click_count = $row['click_count'];
-            $resume_count = $row['resume_count'];
-            $email_count = $row['email_count'];
-            $phone_count = $row['phone_count'];
-          ?>
-          <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
-
-          <script>
-            document.addEventListener("DOMContentLoaded", () => {
-              echarts.init(document.querySelector("#trafficChart")).setOption({
-                tooltip: {
-                  trigger: 'item'
-                },
-                legend: {
-                  top: '5%',
-                  left: 'center'
-                },
-                series: [{
-                  name: 'Access From',
-                  type: 'pie',
-                  radius: ['40%', '70%'],
-                  avoidLabelOverlap: false,
-                  label: {
-                    show: false,
-                    position: 'center'
+              $result = $con->query($query);
+              if (!$result) {
+                  die('Query Error: ' . $mysqli->error);
+              }
+              $row = $result->fetch_assoc();
+              $visit_count = $row['visit_count'];
+              $click_count = $row['click_count'];
+              $resume_count = $row['resume_count'];
+              $email_count = $row['email_count'];
+              $phone_count = $row['phone_count'];
+            ?>
+            <div id="trafficChartToday" style="min-height: 400px;" class="echart"></div>
+            
+            <script>
+              document.addEventListener("DOMContentLoaded", () => {
+                echarts.init(document.querySelector("#trafficChartToday")).setOption({
+                  tooltip: {
+                    trigger: 'item'
                   },
-                  emphasis: {
+                  legend: {
+                    top: '5%',
+                    left: 'center'
+                  },
+                  series: [{
+                    name: 'Access From',
+                    type: 'pie',
+                    radius: ['40%', '70%'],
+                    avoidLabelOverlap: false,
                     label: {
-                      show: true,
-                      fontSize: '18',
-                      fontWeight: 'bold'
-                    }
-                  },
-                  labelLine: {
-                    show: false
-                  },
-                  data: [{
-                      value: <?php echo $visit_count ?>,
-                      name: 'Search Engine'
+                      show: false,
+                      position: 'center'
                     },
-                    {
-                      value: <?php echo $click_count ?>,
-                      name: 'Project Visited'
+                    emphasis: {
+                      label: {
+                        show: true,
+                        fontSize: '18',
+                        fontWeight: 'bold'
+                      }
                     },
-                    {
-                      value: <?php echo $resume_count ?>,
-                      name: 'Download Resume'
+                    labelLine: {
+                      show: false
                     },
-                    {
-                      value: <?php echo $email_count ?>,
-                      name: 'Email Clicks'
-                    },
-                    {
-                      value: <?php echo $phone_count ?>,
-                      name: 'Phone Clicks'
-                    }
-                  ]
-                }]
+                    data: [{
+                        value: <?php echo $visit_count ?>,
+                        name: 'Search Engine'
+                      },
+                      {
+                        value: <?php echo $click_count ?>,
+                        name: 'Project Visited'
+                      },
+                      {
+                        value: <?php echo $resume_count ?>,
+                        name: 'Download Resume'
+                      },
+                      {
+                        value: <?php echo $email_count ?>,
+                        name: 'Email Clicks'
+                      },
+                      {
+                        value: <?php echo $phone_count ?>,
+                        name: 'Phone Clicks'
+                      }
+                    ]
+                  }]
+                });
               });
-            });
-          </script>
+            </script>
+          </div>
 
+          <div id="weblog_month" style="display:none" class="graph">
+            <h5 class="card-title">Website Traffic <span>| Month</span></h5>
+            <?php
+              $query = "SELECT 
+              SUM(CASE WHEN type = 'Visit' THEN 1 ELSE 0 END) AS visit_count,
+              SUM(CASE WHEN type = 'Click' THEN 1 ELSE 0 END) AS click_count,
+              SUM(CASE WHEN type = 'Resume' THEN 1 ELSE 0 END) AS resume_count,
+              SUM(CASE WHEN type = 'Email' THEN 1 ELSE 0 END) AS email_count,
+              SUM(CASE WHEN type = 'Phone' THEN 1 ELSE 0 END) AS phone_count
+              FROM system_statistics
+              WHERE DATE(system_statistics.date) = '$date'";
+              $result = $con->query($query);
+              if (!$result) {
+                  die('Query Error: ' . $mysqli->error);
+              }
+              $row = $result->fetch_assoc();
+              $visit_count = $row['visit_count'];
+              $click_count = $row['click_count'];
+              $resume_count = $row['resume_count'];
+              $email_count = $row['email_count'];
+              $phone_count = $row['phone_count'];
+            ?>
+            <div id="trafficChartMonth" style="min-height: 400px;" class="echart"></div>
+
+            <script>
+              document.addEventListener("DOMContentLoaded", () => {
+                echarts.init(document.querySelector("#trafficChartMonth")).setOption({
+                  tooltip: {
+                    trigger: 'item'
+                  },
+                  legend: {
+                    top: '5%',
+                    left: 'center'
+                  },
+                  series: [{
+                    name: 'Access From',
+                    type: 'pie',
+                    radius: ['40%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                      show: false,
+                      position: 'center'
+                    },
+                    emphasis: {
+                      label: {
+                        show: true,
+                        fontSize: '18',
+                        fontWeight: 'bold'
+                      }
+                    },
+                    labelLine: {
+                      show: false
+                    },
+                    data: [{
+                        value: <?php echo $visit_count ?>,
+                        name: 'Search Engine'
+                      },
+                      {
+                        value: <?php echo $click_count ?>,
+                        name: 'Project Visited'
+                      },
+                      {
+                        value: <?php echo $resume_count ?>,
+                        name: 'Download Resume'
+                      },
+                      {
+                        value: <?php echo $email_count ?>,
+                        name: 'Email Clicks'
+                      },
+                      {
+                        value: <?php echo $phone_count ?>,
+                        name: 'Phone Clicks'
+                      }
+                    ]
+                  }]
+                });
+              });
+            </script>
+          </div>
         </div>
       </div><!-- End Website Traffic -->
 
@@ -649,8 +730,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   $(document).ready(function() {
-      // Restore the selected filter from localStorage
-      var savedFilter = localStorage.getItem('selectedFilter');
+      // Restore the selected filter for user activities from localStorage
+      var savedFilter = localStorage.getItem('selectedUserActivityFilter');
       if (savedFilter) {
           $(".activity").hide();
           $("#" + savedFilter).show();
@@ -658,7 +739,7 @@
           $("#filterValue").text(filterText);
       }
 
-      $(".dropdown-item").click(function() {
+      $(".user-activity").click(function() {
           // Hide all sections
           $(".activity").hide();
 
@@ -670,8 +751,36 @@
           var filterText = $(this).attr("data-filter-text");
           $("#filterValue").text(filterText);
 
-          // Save the selected filter in localStorage
-          localStorage.setItem('selectedFilter', targetSection);
+          // Save the selected filter for user activities in localStorage
+          localStorage.setItem('selectedUserActivityFilter', targetSection);
+      });
+  });
+</script>
+<script>
+  $(document).ready(function() {
+      // Restore the selected filter for web activities from localStorage
+      var savedFilter = localStorage.getItem('selectedWebActivityFilter');
+      if (savedFilter) {
+          $(".graph").hide();
+          $("#" + savedFilter).show();
+          var filterText = $("#" + savedFilter).data("filter-text");
+          $("#filterValue").text(filterText);
+      }
+
+      $(".web-activity").click(function() {
+          // Hide all sections
+          $(".graph").hide();
+
+          // Show the selected section based on the clicked filter
+          var targetSection = $(this).attr("data-section");
+          $("#" + targetSection).show();
+
+          // Update the card title based on the clicked filter
+          var filterText = $(this).attr("data-filter-text");
+          $("#filterValue").text(filterText);
+
+          // Save the selected filter for web activities in localStorage
+          localStorage.setItem('selectedWebActivityFilter', targetSection);
       });
   });
 </script>
