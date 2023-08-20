@@ -21,7 +21,7 @@
       <div class="row">
 
         <!-- Project Card -->
-        <div class="col-xxl-4 col-md-6">
+        <div class="col-xxl-6 col-md-6">
           <?php
             // Today Filter SQL
             $date = date('Y-m-d');
@@ -50,7 +50,7 @@
           <div class="card info-card sales-card">
 
             <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+              <a class="icon" href="javascript:void(0)" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                 <li class="dropdown-header text-start">
                   <h6>Filter</h6>
@@ -105,7 +105,7 @@
         </div><!-- End Project Card -->
 
         <!-- Work Card -->
-        <div class="col-xxl-4 col-md-6">
+        <div class="col-xxl-6 col-md-6">
           <div class="card info-card revenue-card">
             <?php
               // Today Filter SQL
@@ -133,7 +133,7 @@
               $percent_total_work_year = $total_work_year * 2;
             ?>
             <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+              <a class="icon" href="javascript:void(0)" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                 <li class="dropdown-header text-start">
                   <h6>Filter</h6>
@@ -158,7 +158,7 @@
                   </div>
                 </div>
               </div>
-              <div id="work_month" class="work">
+              <div id="work_month" style="display:none" class="work">
                 <h5 class="card-title">Work <span>| Month</span></h5>
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -170,7 +170,7 @@
                   </div>
                 </div>
               </div>
-              <div id="work_year" class="work">
+              <div id="work_year" style="display:none" class="work">
                 <h5 class="card-title">Work <span>| Year</span></h5>
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -188,271 +188,218 @@
         </div><!-- End Work Card -->
 
         <!-- Testimonials Card -->
-        <div class="col-xxl-4 col-xl-12">
-
+        <div class="col-xxl-12 col-xl-12">
+          <?php
+            // Today Filter SQL
+            $date = date('Y-m-d');
+            $testimonials1 = "SELECT COUNT(*) AS total_testimonials_today FROM testimonials WHERE DATE(testimonials.date) = '$date'";
+            $testimonials_run1 = $con->query($testimonials1);
+            $testimonials_result1 = $testimonials_run1->fetch_assoc();
+            $total_testimonials_today = $testimonials_result1['total_testimonials_today'];
+            $percent_total_testimonials_today = $total_testimonials_today * 2;
+          ?>
+          <?php
+            // Month Filter SQL
+            $testimonials2 = "SELECT COUNT(*) AS total_testimonials_month FROM testimonials WHERE testimonials.date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND testimonials.date <= CURDATE()";
+            $testimonials_run2 = $con->query($testimonials2);
+            $testimonials_result2 = $testimonials_run2->fetch_assoc();
+            $total_testimonials_month = $testimonials_result2['total_testimonials_month'];
+            $percent_total_testimonials_month = $total_testimonials_month * 2;
+          ?>
+          <?php
+            // Year Filter SQL
+            $testimonials3 = "SELECT COUNT(*) AS total_testimonials_year FROM testimonials WHERE testimonials.date >= DATE_SUB(CURDATE(), INTERVAL 365 DAY) AND testimonials.date <= CURDATE()";
+            $testimonials_run3 = $con->query($testimonials3);
+            $testimonials_result3 = $testimonials_run3->fetch_assoc();
+            $total_testimonials_year = $testimonials_result3['total_testimonials_year'];
+            $percent_total_testimonials_year = $total_testimonials_year * 2;
+          ?>
           <div class="card info-card customers-card">
-
             <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+              <a class="icon" href="javascript:void(0)" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                 <li class="dropdown-header text-start">
                   <h6>Filter</h6>
                 </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
+                <li><a class="dropdown-item count-testimonials" href="javascript:void(0)" data-section="testimonials_today">Today</a></li>
+                <li><a class="dropdown-item count-testimonials" href="javascript:void(0)" data-section="testimonials_month">This Month</a></li>
+                <li><a class="dropdown-item count-testimonials" href="javascript:void(0)" data-section="testimonials_year">This Year</a></li>
               </ul>
             </div>
 
             <div class="card-body">
-              <h5 class="card-title">Customers <span>| This Year</span></h5>
-
-              <div class="d-flex align-items-center">
-                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                  <i class="bi bi-people"></i>
-                </div>
-                <div class="ps-3">
-                  <h6>1244</h6>
-                  <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
-
+              <div id="testimonials_today" class="testimonials">
+                <h5 class="card-title">Testimonials <span>| Today</span></h5>
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-people"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6><?php echo $total_testimonials_today ?></h6>
+                    <span class="text-success small pt-1 fw-bold"><?php echo $percent_total_testimonials_today ?>%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                  </div>
                 </div>
               </div>
-
+              <div id="testimonials_month" style="display:none" class="testimonials">
+                <h5 class="card-title">Testimonials <span>| Month</span></h5>
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-people"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6><?php echo $total_testimonials_month ?></h6>
+                    <span class="text-success small pt-1 fw-bold"><?php echo $percent_total_testimonials_month ?>%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                  </div>
+                </div>
+              </div>
+              <div id="testimonials_year" style="display:none" class="testimonials">
+                <h5 class="card-title">Testimonials <span>| Year</span></h5>
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-people"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6><?php echo $total_testimonials_year ?></h6>
+                    <span class="text-success small pt-1 fw-bold"><?php echo $percent_total_testimonials_year ?>%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-
         </div><!-- End Testimonials Card -->
 
-        <!-- Reports -->
+        <!-- Recent Projects -->
         <div class="col-12">
-          <div class="card">
+          <div class="card recent-sales">
 
             <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+              <a class="icon" href="javascript:void(0)" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                 <li class="dropdown-header text-start">
                   <h6>Filter</h6>
                 </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
+                <li><a class="dropdown-item count-recentprojects" href="javascript:void(0)" data-section="recentprojects_today">Today</a></li>
+                <li><a class="dropdown-item count-recentprojects" href="javascript:void(0)" data-section="recentprojects_month">This Month</a></li>
+                <li><a class="dropdown-item count-recentprojects" href="javascript:void(0)" data-section="recentprojects_year">This Year</a></li>
               </ul>
             </div>
 
             <div class="card-body">
-              <h5 class="card-title">Reports <span>/Today</span></h5>
-
-              <!-- Line Chart -->
-              <div id="reportsChart"></div>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  new ApexCharts(document.querySelector("#reportsChart"), {
-                    series: [{
-                      name: 'Sales',
-                      data: [31, 40, 28, 51, 42, 82, 56],
-                    }, {
-                      name: 'Revenue',
-                      data: [11, 32, 45, 32, 34, 52, 41]
-                    }, {
-                      name: 'Customers',
-                      data: [15, 11, 32, 18, 9, 24, 11]
-                    }],
-                    chart: {
-                      height: 350,
-                      type: 'area',
-                      toolbar: {
-                        show: false
-                      },
-                    },
-                    markers: {
-                      size: 4
-                    },
-                    colors: ['#4154f1', '#2eca6a', '#ff771d'],
-                    fill: {
-                      type: "gradient",
-                      gradient: {
-                        shadeIntensity: 1,
-                        opacityFrom: 0.3,
-                        opacityTo: 0.4,
-                        stops: [0, 90, 100]
-                      }
-                    },
-                    dataLabels: {
-                      enabled: false
-                    },
-                    stroke: {
-                      curve: 'smooth',
-                      width: 2
-                    },
-                    xaxis: {
-                      type: 'datetime',
-                      categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-                    },
-                    tooltip: {
-                      x: {
-                        format: 'dd/MM/yy HH:mm'
-                      },
-                    }
-                  }).render();
-                });
-              </script>
-              <!-- End Line Chart -->
-
+              <div id="recentprojects_today" class="recentprojects">
+                <h5 class="card-title">Recent Projects <span>| Today</span></h5>
+                <table class="table table-borderless datatable overflow-auto">
+                  <thead>
+                    <tr>
+                      <th scope="col">No.</th>
+                      <th scope="col">Title</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Banner</th>
+                      <th scope="col">Link</th>
+                      <th scope="col">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+                      $date = date('Y-m-d');
+                      $a = 0;
+                      $userID = $_SESSION['auth_user'] ['user_id'];
+                      $query_project1 = "SELECT *, DATE_FORMAT(project.date, '%m-%d-%Y %h:%i:%s %p') as date_created FROM project WHERE project.user_id = '$userID' AND DATE(project.date) = '$date'";
+                      $query_project1_run = mysqli_query($con, $query_project1);
+                      if(mysqli_num_rows($query_project1_run) > 0){
+                        foreach($query_project1_run as $stmt_project1){
+                        $a++
+                    ?>
+                    <tr>
+                      <th scope="row"><a href="#"><?= $a; ?></a></th>
+                      <td><a href="<?= $stmt_project1['id']; ?>" class="text-primary"><?= $stmt_project1['name']; ?></a></td>
+                      <td><?= $stmt_project1['type']; ?></td>
+                      <td><?= $stmt_project1['Banner']; ?></td>
+                      <td><a href="<?= $stmt_project1['url']; ?>" target="_blank" class="text-primary"><?= $stmt_project1['url']; ?></a></td>
+                      <td><?= $stmt_project1['date_created']; ?></td>
+                    </tr>
+                    <?php } } else{ ?>
+                      <tr><td class="datatable-empty" colspan="6">No Record Found</td></tr>
+                    <?php } ?>
+                  </tbody>
+                </table>
+              </div>
+              <div id="recentprojects_month" style="display:none" class="recentprojects">
+                <h5 class="card-title">Recent Projects <span>| Month</span></h5>
+                <table class="table table-borderless datatable overflow-auto">
+                  <thead>
+                    <tr>
+                      <th scope="col">No.</th>
+                      <th scope="col">Title</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Banner</th>
+                      <th scope="col">Link</th>
+                      <th scope="col">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+                      $b = 0;
+                      $userID = $_SESSION['auth_user'] ['user_id'];
+                      $query_project2 = "SELECT *, DATE_FORMAT(project.date, '%m-%d-%Y %h:%i:%s %p') as date_created FROM project WHERE project.user_id = '$userID' AND project.date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND project.date < CURDATE()";
+                      $query_project2_run = mysqli_query($con, $query_project2);
+                      if(mysqli_num_rows($query_project2_run) > 0){
+                        foreach($query_project2_run as $stmt_project2){
+                        $b++
+                    ?>
+                    <tr>
+                      <th scope="row"><a href="#"><?= $b; ?></a></th>
+                      <td><a href="<?= $stmt_project2['id']; ?>" class="text-primary"><?= $stmt_project2['name']; ?></a></td>
+                      <td><?= $stmt_project2['type']; ?></td>
+                      <td><?= $stmt_project2['Banner']; ?></td>
+                      <td><a href="<?= $stmt_project2['url']; ?>" target="_blank" class="text-primary"><?= $stmt_project2['url']; ?></a></td>
+                      <td><?= $stmt_project2['date_created']; ?></td>
+                    </tr>
+                    <?php } } else{ ?>
+                      <tr><td class="datatable-empty" colspan="6">No Record Found</td></tr>
+                    <?php } ?>
+                  </tbody>
+                </table>
+              </div>
+              <div id="recentprojects_year" style="display:none" class="recentprojects">
+                <h5 class="card-title">Recent Projects <span>| Year</span></h5>
+                <table class="table table-borderless datatable overflow-auto">
+                  <thead>
+                    <tr>
+                      <th scope="col">No.</th>
+                      <th scope="col">Title</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Banner</th>
+                      <th scope="col">Link</th>
+                      <th scope="col">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+                      $c = 0;
+                      $userID = $_SESSION['auth_user'] ['user_id'];
+                      $query_project3 = "SELECT *, DATE_FORMAT(project.date, '%m-%d-%Y %h:%i:%s %p') as date_created FROM project WHERE project.user_id = '$userID' AND project.date >= DATE_SUB(CURDATE(), INTERVAL 365 DAY) AND project.date < CURDATE()";
+                      $query_project3_run = mysqli_query($con, $query_project3);
+                      if(mysqli_num_rows($query_project3_run) > 0){
+                        foreach($query_project3_run as $stmt_project3){
+                        $c++
+                    ?>
+                    <tr>
+                      <th scope="row"><a href="#"><?= $c; ?></a></th>
+                      <td><a href="<?= $stmt_project3['id']; ?>" class="text-primary"><?= $stmt_project3['name']; ?></a></td>
+                      <td><?= $stmt_project3['type']; ?></td>
+                      <td><?= $stmt_project3['Banner']; ?></td>
+                      <td><a href="<?= $stmt_project3['url']; ?>" target="_blank" class="text-primary"><?= $stmt_project3['url']; ?></a></td>
+                      <td><?= $stmt_project3['date_created']; ?></td>
+                    </tr>
+                    <?php } } else{ ?>
+                      <tr><td class="datatable-empty" colspan="6">No Record Found</td></tr>
+                    <?php } ?>
+                  </tbody>
+                </table>
+              </div>
             </div>
-
-          </div>
-        </div><!-- End Reports -->
-
-        <!-- Recent Sales -->
-        <div class="col-12">
-          <div class="card recent-sales overflow-auto">
-
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
-            </div>
-
-            <div class="card-body">
-              <h5 class="card-title">Recent Sales <span>| Today</span></h5>
-
-              <table class="table table-borderless datatable">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Customer</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row"><a href="#">#2457</a></th>
-                    <td>Brandon Jacob</td>
-                    <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                    <td>$64</td>
-                    <td><span class="badge bg-success">Approved</span></td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#">#2147</a></th>
-                    <td>Bridie Kessler</td>
-                    <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td>
-                    <td>$47</td>
-                    <td><span class="badge bg-warning">Pending</span></td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#">#2049</a></th>
-                    <td>Ashleigh Langosh</td>
-                    <td><a href="#" class="text-primary">At recusandae consectetur</a></td>
-                    <td>$147</td>
-                    <td><span class="badge bg-success">Approved</span></td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#">#2644</a></th>
-                    <td>Angus Grady</td>
-                    <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td>
-                    <td>$67</td>
-                    <td><span class="badge bg-danger">Rejected</span></td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#">#2644</a></th>
-                    <td>Raheem Lehner</td>
-                    <td><a href="#" class="text-primary">Sunt similique distinctio</a></td>
-                    <td>$165</td>
-                    <td><span class="badge bg-success">Approved</span></td>
-                  </tr>
-                </tbody>
-              </table>
-
-            </div>
-
           </div>
         </div><!-- End Recent Sales -->
-
-        <!-- Top Selling -->
-        <div class="col-12">
-          <div class="card top-selling overflow-auto">
-
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
-            </div>
-
-            <div class="card-body pb-0">
-              <h5 class="card-title">Top Selling <span>| Today</span></h5>
-
-              <table class="table table-borderless">
-                <thead>
-                  <tr>
-                    <th scope="col">Preview</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Sold</th>
-                    <th scope="col">Revenue</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row"><a href="#"><img src="<?php echo base_url ?>assets/images/product-1.jpg" alt=""></a></th>
-                    <td><a href="#" class="text-primary fw-bold">Ut inventore ipsa voluptas nulla</a></td>
-                    <td>$64</td>
-                    <td class="fw-bold">124</td>
-                    <td>$5,828</td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#"><img src="<?php echo base_url ?>assets/images/product-2.jpg" alt=""></a></th>
-                    <td><a href="#" class="text-primary fw-bold">Exercitationem similique doloremque</a></td>
-                    <td>$46</td>
-                    <td class="fw-bold">98</td>
-                    <td>$4,508</td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#"><img src="<?php echo base_url ?>assets/images/product-3.jpg" alt=""></a></th>
-                    <td><a href="#" class="text-primary fw-bold">Doloribus nisi exercitationem</a></td>
-                    <td>$59</td>
-                    <td class="fw-bold">74</td>
-                    <td>$4,366</td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#"><img src="<?php echo base_url ?>assets/images/product-4.jpg" alt=""></a></th>
-                    <td><a href="#" class="text-primary fw-bold">Officiis quaerat sint rerum error</a></td>
-                    <td>$32</td>
-                    <td class="fw-bold">63</td>
-                    <td>$2,016</td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#"><img src="<?php echo base_url ?>assets/images/product-5.jpg" alt=""></a></th>
-                    <td><a href="#" class="text-primary fw-bold">Sit unde debitis delectus repellendus</a></td>
-                    <td>$79</td>
-                    <td class="fw-bold">41</td>
-                    <td>$3,239</td>
-                  </tr>
-                </tbody>
-              </table>
-
-            </div>
-
-          </div>
-        </div><!-- End Top Selling -->
 
       </div>
     </div><!-- End Left side columns -->
@@ -463,7 +410,7 @@
       <!-- Recent Activity -->
       <div class="card">
         <div class="filter">
-          <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+          <a class="icon" href="javascript:void(0)" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
             <li class="dropdown-header text-start">
               <h6>Filter</h6>
@@ -585,7 +532,7 @@
       <!-- Website Traffic -->
       <div class="card">
         <div class="filter">
-          <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+          <a class="icon" href="javascript:void(0)" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
             <li class="dropdown-header text-start">
               <h6>Filter</h6>
@@ -598,7 +545,7 @@
         </div>
 
         <div class="card-body pb-0">
-          <div id="weblog_today" style="display:block" class="graph">
+          <div id="weblog_today" class="graph">
             <h5 class="card-title web-traffic">Website Traffic <span>| Today</span></h5>
             <div id="trafficChartToday" style="min-height: 400px;" class="echart"></div>
           </div>
@@ -687,60 +634,6 @@
         </div>
       </div><!-- End Website Traffic -->
 
-      <!-- News & Updates Traffic -->
-      <div class="card">
-        <div class="filter">
-          <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-            <li class="dropdown-header text-start">
-              <h6>Filter</h6>
-            </li>
-
-            <li><a class="dropdown-item" href="#">Today</a></li>
-            <li><a class="dropdown-item" href="#">This Month</a></li>
-            <li><a class="dropdown-item" href="#">This Year</a></li>
-          </ul>
-        </div>
-
-        <div class="card-body pb-0">
-          <h5 class="card-title">News &amp; Updates <span>| Today</span></h5>
-
-          <div class="news">
-            <div class="post-item clearfix">
-              <img src="<?php echo base_url ?>assets/images/news-1.jpg" alt="">
-              <h4><a href="#">Nihil blanditiis at in nihil autem</a></h4>
-              <p>Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut harum...</p>
-            </div>
-
-            <div class="post-item clearfix">
-              <img src="<?php echo base_url ?>assets/images/news-2.jpg" alt="">
-              <h4><a href="#">Quidem autem et impedit</a></h4>
-              <p>Illo nemo neque maiores vitae officiis cum eum turos elan dries werona nande...</p>
-            </div>
-
-            <div class="post-item clearfix">
-              <img src="<?php echo base_url ?>assets/images/news-3.jpg" alt="">
-              <h4><a href="#">Id quia et et ut maxime similique occaecati ut</a></h4>
-              <p>Fugiat voluptas vero eaque accusantium eos. Consequuntur sed ipsam et totam...</p>
-            </div>
-
-            <div class="post-item clearfix">
-              <img src="<?php echo base_url ?>assets/images/news-4.jpg" alt="">
-              <h4><a href="#">Laborum corporis quo dara net para</a></h4>
-              <p>Qui enim quia optio. Eligendi aut asperiores enim repellendusvel rerum cuder...</p>
-            </div>
-
-            <div class="post-item clearfix">
-              <img src="<?php echo base_url ?>assets/images/news-5.jpg" alt="">
-              <h4><a href="#">Et dolores corrupti quae illo quod dolor</a></h4>
-              <p>Odit ut eveniet modi reiciendis. Atque cupiditate libero beatae dignissimos eius...</p>
-            </div>
-
-          </div><!-- End sidebar recent posts-->
-
-        </div>
-      </div><!-- End News & Updates -->
-
     </div><!-- End Right side columns -->
 
   </div>
@@ -809,6 +702,66 @@
 
           // Save the selected filter for user activities in localStorage
           localStorage.setItem('selectedWorkFilter', targetSection);
+      });
+  });
+</script>
+
+<!-- For Testimonials -->
+<script>
+  $(document).ready(function() {
+      // Restore the selected filter for testimonials from localStorage
+      var savedFilter = localStorage.getItem('selectedTestimonialsFilter');
+      if (savedFilter) {
+          $(".testimonials").hide();
+          $("#" + savedFilter).show();
+          var filterText = $("#" + savedFilter).data("filter-text");
+          $("#filterValue").text(filterText);
+      }
+
+      $(".count-testimonials").click(function() {
+          // Hide all sections
+          $(".testimonials").hide();
+
+          // Show the selected section based on the clicked filter
+          var targetSection = $(this).attr("data-section");
+          $("#" + targetSection).show();
+
+          // Update the card title based on the clicked filter
+          var filterText = $(this).attr("data-filter-text");
+          $("#filterValue").text(filterText);
+
+          // Save the selected filter for user activities in localStorage
+          localStorage.setItem('selectedTestimonialsFilter', targetSection);
+      });
+  });
+</script>
+
+<!-- For Recent Projects -->
+<script>
+  $(document).ready(function() {
+      // Restore the selected filter for recentprojects from localStorage
+      var savedFilter = localStorage.getItem('selectedRecentProjectsFilter');
+      if (savedFilter) {
+          $(".recentprojects").hide();
+          $("#" + savedFilter).show();
+          var filterText = $("#" + savedFilter).data("filter-text");
+          $("#filterValue").text(filterText);
+      }
+
+      $(".count-recentprojects").click(function() {
+          // Hide all sections
+          $(".recentprojects").hide();
+
+          // Show the selected section based on the clicked filter
+          var targetSection = $(this).attr("data-section");
+          $("#" + targetSection).show();
+
+          // Update the card title based on the clicked filter
+          var filterText = $(this).attr("data-filter-text");
+          $("#filterValue").text(filterText);
+
+          // Save the selected filter for user activities in localStorage
+          localStorage.setItem('selectedRecentProjectsFilter', targetSection);
       });
   });
 </script>

@@ -3,13 +3,21 @@
 
     <div class="d-flex align-items-center justify-content-between">
         <a href="index.html" class="logo d-flex align-items-center">
-            <img src="<?php echo base_url ?>assets/images/logo.png" alt="">
-            <span class="d-none d-lg-block">NiceAdmin</span>
+            <img src="<?php echo base_url ?>assets/images/<?= $system['system_logo'] ?>" alt="">
+            <span class="d-none d-lg-block"><?= $system['name'] ?> | Admin</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
     <div class="search-bar">
+        <div class="d-none d-md-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100">
+            <div class="input-group">
+                <label>Date: <?php echo date("M d Y"); ?> (<?php echo date("l"); ?>) System time: <a id="timer"></a></label>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-bar d-none">
         <form class="search-form d-flex align-items-center" method="POST" action="#">
             <input type="text" name="query" placeholder="Search" title="Enter search keyword">
             <button type="submit" title="Search"><i class="bi bi-search"></i></button>
@@ -226,3 +234,65 @@
     </nav><!-- End Icons Navigation -->
 
 </header><!-- End Header -->
+
+<!-- Sidebar show and hide -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const sidebarButton = document.querySelector('.toggle-sidebar-btn');
+        const bodyElement = document.querySelector('body');
+        let isSidebarVisible = !(bodyElement.classList.contains('toggle-sidebar'));
+        const storedSidebarState = localStorage.getItem('sidebarState');
+
+        // Function to toggle sidebar and save settings
+        function toggleSidebar() {
+            isSidebarVisible = !isSidebarVisible;
+            if (isSidebarVisible) {
+                bodyElement.classList.remove('toggle-sidebar');
+            } else {
+                bodyElement.classList.add('toggle-sidebar');
+            }
+            localStorage.setItem('sidebarState', JSON.stringify(isSidebarVisible));
+        }
+
+        // Add click event listener to the toggle button
+        if (sidebarButton) {
+            sidebarButton.addEventListener('click', toggleSidebar);
+        }
+
+        // Apply sidebar state on page load
+        if (storedSidebarState !== null) {
+            isSidebarVisible = JSON.parse(storedSidebarState);
+            if (!isSidebarVisible) {
+                bodyElement.classList.add('toggle-sidebar');
+            }
+        }
+    });
+</script>
+
+<!-- Server Time -->
+<?php
+$currentTime = date("Y/m/d H:i:s");
+?>
+
+<script>
+    setInterval(function(){
+       var xhr = new XMLHttpRequest();
+       xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+             var currentTime = new Date(xhr.responseText);
+             var currentHours = currentTime.getHours();
+             var currentMinutes = currentTime.getMinutes();
+             var currentSeconds = currentTime.getSeconds();
+             currentMinutes = (currentMinutes < 10 ? "0" : "") + currentMinutes;
+             currentSeconds = (currentSeconds < 10 ? "0" : "") + currentSeconds;
+             var timeOfDay = (currentHours < 12) ? "AM" : "PM";
+             currentHours = (currentHours > 12) ? currentHours - 12 : currentHours;
+             currentHours = (currentHours == 0) ? 12 : currentHours;
+             var currentTimeString = currentHours + ":" + currentMinutes + ":" + currentSeconds + " " + timeOfDay;
+             document.getElementById("timer").innerHTML = currentTimeString;
+          }
+       };
+       xhr.open("GET", "../../server_time.php", true); // Change "server_time.php" to the actual path of your PHP file
+       xhr.send();
+    }, 1000);
+</script>
