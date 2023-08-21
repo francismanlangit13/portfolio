@@ -43,6 +43,9 @@
 
         <!-- Template Main CSS File -->
         <link href="<?php echo base_url ?>assets/css/style.css" rel="stylesheet">
+        <!-- Datatables AJAX -->
+        <link rel="stylesheet" href="<?php echo base_url ?>assets/vendor/datatables/semantic.min.css">
+        <link rel="stylesheet" href="<?php echo base_url ?>assets/vendor/datatables/dataTables.semanticui.min.css">
     </head>
 
     <body>

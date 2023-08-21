@@ -7,7 +7,7 @@
   <h1>Dashboard</h1>
   <nav>
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+      <li class="breadcrumb-item"><a href="../home">Home</a></li>
       <li class="breadcrumb-item active">Dashboard</li>
     </ol>
   </nav>
@@ -311,9 +311,9 @@
                     ?>
                     <tr>
                       <th scope="row"><a href="#"><?= $a; ?></a></th>
-                      <td><a href="<?= $stmt_project1['id']; ?>" class="text-primary"><?= $stmt_project1['name']; ?></a></td>
+                      <td><a href="<?= $stmt_project1['project_id']; ?>" class="text-primary"><?= $stmt_project1['name']; ?></a></td>
                       <td><?= $stmt_project1['type']; ?></td>
-                      <td><?= $stmt_project1['Banner']; ?></td>
+                      <td><?= $stmt_project1['banner']; ?></td>
                       <td><a href="<?= $stmt_project1['url']; ?>" target="_blank" class="text-primary"><?= $stmt_project1['url']; ?></a></td>
                       <td><?= $stmt_project1['date_created']; ?></td>
                     </tr>
@@ -348,9 +348,9 @@
                     ?>
                     <tr>
                       <th scope="row"><a href="#"><?= $b; ?></a></th>
-                      <td><a href="<?= $stmt_project2['id']; ?>" class="text-primary"><?= $stmt_project2['name']; ?></a></td>
+                      <td><a href="<?= $stmt_project2['project_id']; ?>" class="text-primary"><?= $stmt_project2['name']; ?></a></td>
                       <td><?= $stmt_project2['type']; ?></td>
-                      <td><?= $stmt_project2['Banner']; ?></td>
+                      <td><?= $stmt_project2['banner']; ?></td>
                       <td><a href="<?= $stmt_project2['url']; ?>" target="_blank" class="text-primary"><?= $stmt_project2['url']; ?></a></td>
                       <td><?= $stmt_project2['date_created']; ?></td>
                     </tr>
@@ -385,9 +385,9 @@
                     ?>
                     <tr>
                       <th scope="row"><a href="#"><?= $c; ?></a></th>
-                      <td><a href="<?= $stmt_project3['id']; ?>" class="text-primary"><?= $stmt_project3['name']; ?></a></td>
+                      <td><a href="<?= $stmt_project3['project_id']; ?>" class="text-primary"><?= $stmt_project3['name']; ?></a></td>
                       <td><?= $stmt_project3['type']; ?></td>
-                      <td><?= $stmt_project3['Banner']; ?></td>
+                      <td><?= $stmt_project3['banner']; ?></td>
                       <td><a href="<?= $stmt_project3['url']; ?>" target="_blank" class="text-primary"><?= $stmt_project3['url']; ?></a></td>
                       <td><?= $stmt_project3['date_created']; ?></td>
                     </tr>
