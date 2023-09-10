@@ -20,29 +20,6 @@
                 <div class="row">
                     <!-- Project Card -->
                     <div class="col-xxl-6 col-md-6">
-                        <?php
-                            // Today Filter SQL
-                            $date = date('Y-m-d');
-                            $stmt1 = "SELECT COUNT(*) AS total_projects_today FROM project WHERE DATE(project.date) = '$date'";
-                            $stmt_run1 = $con->query($stmt1);
-                            $row_result1 = $stmt_run1->fetch_assoc();
-                            $total_products_today = $row_result1['total_projects_today'];
-                            $percent_total_products_today = $total_products_today * 2;
-
-                            // Month Filter SQL
-                            $stmt2 = "SELECT COUNT(*) AS total_projects_month FROM project WHERE project.date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND project.date <= CURDATE()";
-                            $stmt_run2 = $con->query($stmt2);
-                            $row_result2 = $stmt_run2->fetch_assoc();
-                            $total_products_month = $row_result2['total_projects_month'];
-                            $percent_total_products_month = $total_products_month * 2;
-
-                            // Year Filter SQL
-                            $stmt3 = "SELECT COUNT(*) AS total_projects_year FROM project WHERE project.date >= DATE_SUB(CURDATE(), INTERVAL 365 DAY) AND project.date <= CURDATE()";
-                            $stmt_run3 = $con->query($stmt3);
-                            $row_result3 = $stmt_run3->fetch_assoc();
-                            $total_products_year = $row_result3['total_projects_year'];
-                            $percent_total_products_year = $total_products_year * 2;
-                        ?>
                         <div class="card info-card sales-card">
                             <div class="filter">
                                 <a class="icon" href="javascript:void(0)" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
@@ -61,8 +38,9 @@
                                             <i class="bi bi-collection"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6><?php echo $total_products_today ?></h6>
-                                            <span class="text-success small pt-1 fw-bold"><?php echo $percent_total_products_today ?>%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                                            <h6 id="total_projects_today"></h6>
+                                            <span class="text-success small pt-1 fw-bold" id="percent_total_projects_today"></span>
+                                            <span class="text-muted small pt-2 ps-1">increase</span>
                                         </div>
                                     </div>
                                 </div>
@@ -73,8 +51,9 @@
                                             <i class="bi bi-collection"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6><?php echo $total_products_month ?></h6>
-                                            <span class="text-success small pt-1 fw-bold"><?php echo $percent_total_products_month ?>%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                                            <h6 id="total_projects_month"></h6>
+                                            <span class="text-success small pt-1 fw-bold" id="percent_total_projects_month"></span>
+                                            <span class="text-muted small pt-2 ps-1">increase</span>
                                         </div>
                                     </div>
                                 </div>
@@ -85,8 +64,9 @@
                                             <i class="bi bi-collection"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6><?php echo $total_products_year ?></h6>
-                                            <span class="text-success small pt-1 fw-bold"><?php echo $percent_total_products_year ?>%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                                            <h6 id="total_projects_year"></h6>
+                                            <span class="text-success small pt-1 fw-bold" id="percent_total_projects_year"></span>
+                                            <span class="text-muted small pt-2 ps-1">increase</span>
                                         </div>
                                     </div>
                                 </div>
@@ -96,29 +76,6 @@
                     <!-- Work Card -->
                     <div class="col-xxl-6 col-md-6">
                         <div class="card info-card revenue-card">
-                            <?php
-                                // Today Filter SQL
-                                $date = date('Y-m-d');
-                                $work1 = "SELECT COUNT(*) AS total_work_today FROM work WHERE DATE(work.date) = '$date'";
-                                $work_run1 = $con->query($work1);
-                                $work_result1 = $work_run1->fetch_assoc();
-                                $total_work_today = $work_result1['total_work_today'];
-                                $percent_total_work_today = $total_work_today * 2;
-
-                                // Month Filter SQL
-                                $work2 = "SELECT COUNT(*) AS total_work_month FROM work WHERE work.date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND work.date <= CURDATE()";
-                                $work_run2 = $con->query($work2);
-                                $work_result2 = $work_run2->fetch_assoc();
-                                $total_work_month = $work_result2['total_work_month'];
-                                $percent_total_work_month = $total_work_month * 2;
-
-                                // Year Filter SQL
-                                $work3 = "SELECT COUNT(*) AS total_work_year FROM work WHERE work.date >= DATE_SUB(CURDATE(), INTERVAL 365 DAY) AND work.date <= CURDATE()";
-                                $work_run3 = $con->query($work3);
-                                $work_result3 = $work_run3->fetch_assoc();
-                                $total_work_year = $work_result3['total_work_year'];
-                                $percent_total_work_year = $total_work_year * 2;
-                            ?>
                             <div class="filter">
                                 <a class="icon" href="javascript:void(0)" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -136,8 +93,9 @@
                                             <i class="bi bi-briefcase"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6><?php echo $total_work_today ?></h6>
-                                            <span class="text-success small pt-1 fw-bold"><?php echo $percent_total_work_today ?>%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                                            <h6 id="total_work_today"></h6>
+                                            <span class="text-success small pt-1 fw-bold" id="percent_total_work_today"></span>
+                                            <span class="text-muted small pt-2 ps-1">increase</span>
                                         </div>
                                     </div>
                                 </div>
@@ -148,8 +106,9 @@
                                             <i class="bi bi-briefcase"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6><?php echo $total_work_month ?></h6>
-                                            <span class="text-success small pt-1 fw-bold"><?php echo $percent_total_work_month ?>%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                                            <h6 id="total_work_month"></h6>
+                                            <span class="text-success small pt-1 fw-bold" id="percent_total_work_month"></span>
+                                            <span class="text-muted small pt-2 ps-1">increase</span>
                                         </div>
                                     </div>
                                 </div>
@@ -160,8 +119,9 @@
                                             <i class="bi bi-briefcase"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6><?php echo $total_work_year ?></h6>
-                                            <span class="text-success small pt-1 fw-bold"><?php echo $percent_total_work_year ?>%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                                            <h6 id="total_work_year"></h6>
+                                            <span class="text-success small pt-1 fw-bold" id="percent_total_work_year"></span>
+                                            <span class="text-muted small pt-2 ps-1">increase</span>
                                         </div>
                                     </div>
                                 </div>
@@ -170,29 +130,6 @@
                     </div><!-- End Work Card -->
                     <!-- Testimonials Card -->
                     <div class="col-xxl-12 col-xl-12">
-                        <?php
-                            // Today Filter SQL
-                            $date = date('Y-m-d');
-                            $testimonials1 = "SELECT COUNT(*) AS total_testimonials_today FROM testimonials WHERE DATE(testimonials.date) = '$date'";
-                            $testimonials_run1 = $con->query($testimonials1);
-                            $testimonials_result1 = $testimonials_run1->fetch_assoc();
-                            $total_testimonials_today = $testimonials_result1['total_testimonials_today'];
-                            $percent_total_testimonials_today = $total_testimonials_today * 2;
-
-                            // Month Filter SQL
-                            $testimonials2 = "SELECT COUNT(*) AS total_testimonials_month FROM testimonials WHERE testimonials.date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND testimonials.date <= CURDATE()";
-                            $testimonials_run2 = $con->query($testimonials2);
-                            $testimonials_result2 = $testimonials_run2->fetch_assoc();
-                            $total_testimonials_month = $testimonials_result2['total_testimonials_month'];
-                            $percent_total_testimonials_month = $total_testimonials_month * 2;
-
-                            // Year Filter SQL
-                            $testimonials3 = "SELECT COUNT(*) AS total_testimonials_year FROM testimonials WHERE testimonials.date >= DATE_SUB(CURDATE(), INTERVAL 365 DAY) AND testimonials.date <= CURDATE()";
-                            $testimonials_run3 = $con->query($testimonials3);
-                            $testimonials_result3 = $testimonials_run3->fetch_assoc();
-                            $total_testimonials_year = $testimonials_result3['total_testimonials_year'];
-                            $percent_total_testimonials_year = $total_testimonials_year * 2;
-                        ?>
                         <div class="card info-card customers-card">
                             <div class="filter">
                                 <a class="icon" href="javascript:void(0)" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
@@ -211,8 +148,9 @@
                                             <i class="bi bi-people"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6><?php echo $total_testimonials_today ?></h6>
-                                            <span class="text-success small pt-1 fw-bold"><?php echo $percent_total_testimonials_today ?>%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                                            <h6 id="total_testimonials_today"></h6>
+                                            <span class="text-success small pt-1 fw-bold" id="percent_total_testimonials_today"></span>
+                                            <span class="text-muted small pt-2 ps-1">increase</span>
                                         </div>
                                     </div>
                                 </div>
@@ -223,8 +161,9 @@
                                             <i class="bi bi-people"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6><?php echo $total_testimonials_month ?></h6>
-                                            <span class="text-success small pt-1 fw-bold"><?php echo $percent_total_testimonials_month ?>%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                                            <h6 id="total_testimonials_month"></h6>
+                                            <span class="text-success small pt-1 fw-bold" id="percent_total_testimonials_month"></span>
+                                            <span class="text-muted small pt-2 ps-1">increase</span>
                                         </div>
                                     </div>
                                 </div>
@@ -235,8 +174,9 @@
                                             <i class="bi bi-people"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6><?php echo $total_testimonials_year ?></h6>
-                                            <span class="text-success small pt-1 fw-bold"><?php echo $percent_total_testimonials_year ?>%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                                            <h6 id="total_testimonials_year"></h6>
+                                            <span class="text-success small pt-1 fw-bold" id="percent_total_testimonials_year"></span>
+                                            <span class="text-muted small pt-2 ps-1">increase</span>
                                         </div>
                                     </div>
                                 </div>
@@ -258,107 +198,52 @@
                             <div class="card-body">
                                 <div id="recentprojects_today" class="recentprojects">
                                     <h5 class="card-title">Recent Projects <span>| Today</span></h5>
-                                    <table class="table table-borderless datatable overflow-auto">
+                                    <table id="recentprojects_today" class="table table-borderless datatable overflow-auto">
                                         <thead>
                                             <tr>
                                                 <th scope="col">No.</th>
                                                 <th scope="col">Title</th>
                                                 <th scope="col">Type</th>
-                                                <th scope="col">Banner</th>
                                                 <th scope="col">Link</th>
                                                 <th scope="col">Date</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php
-                                                $date = date('Y-m-d');
-                                                $a = 0;
-                                                $userID = $_SESSION['auth_user'] ['user_id'];
-                                                $query_project1 = "SELECT *, DATE_FORMAT(project.date, '%m-%d-%Y %h:%i:%s %p') as date_created FROM project WHERE project.user_id = '$userID' AND DATE(project.date) = '$date'";
-                                                $query_project1_run = mysqli_query($con, $query_project1);
-                                                if(mysqli_num_rows($query_project1_run) > 0){
-                                                    foreach($query_project1_run as $stmt_project1){
-                                                    $a++
-                                            ?>
-                                            <tr>
-                                                <th scope="row"><a href="#"><?= $a; ?></a></th>
-                                                <td><a href="<?= $stmt_project1['project_id']; ?>" class="text-primary"><?= $stmt_project1['name']; ?></a></td>
-                                                <td><?= $stmt_project1['type']; ?></td>
-                                                <td><?= $stmt_project1['banner']; ?></td>
-                                                <td><a href="http://<?= $stmt_project1['url']; ?>" target="_blank" class="text-primary"><?= $stmt_project1['url']; ?></a></td>
-                                                <td><?= $stmt_project1['date_created']; ?></td>
-                                            </tr>
-                                            <?php } } else{ } ?>
+                                            <!-- Placeholder for today's project data -->
                                         </tbody>
                                     </table>
                                 </div>
                                 <div id="recentprojects_month" style="display:none" class="recentprojects">
                                     <h5 class="card-title">Recent Projects <span>| Month</span></h5>
-                                    <table class="table table-borderless datatable overflow-auto">
+                                    <table id="recentprojects_month" class="table table-borderless datatable overflow-auto">
                                         <thead>
                                             <tr>
                                                 <th scope="col">No.</th>
                                                 <th scope="col">Title</th>
                                                 <th scope="col">Type</th>
-                                                <th scope="col">Banner</th>
                                                 <th scope="col">Link</th>
                                                 <th scope="col">Date</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php
-                                                $b = 0;
-                                                $userID = $_SESSION['auth_user'] ['user_id'];
-                                                $query_project2 = "SELECT *, DATE_FORMAT(project.date, '%m-%d-%Y %h:%i:%s %p') as date_created FROM project WHERE project.user_id = '$userID' AND project.date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND project.date < CURDATE()";
-                                                $query_project2_run = mysqli_query($con, $query_project2);
-                                                if(mysqli_num_rows($query_project2_run) > 0){
-                                                    foreach($query_project2_run as $stmt_project2){
-                                                    $b++
-                                            ?>
-                                            <tr>
-                                                <th scope="row"><a href="#"><?= $b; ?></a></th>
-                                                <td><a href="<?= $stmt_project2['project_id']; ?>" class="text-primary"><?= $stmt_project2['name']; ?></a></td>
-                                                <td><?= $stmt_project2['type']; ?></td>
-                                                <td><?= $stmt_project2['banner']; ?></td>
-                                                <td><a href="http://<?= $stmt_project2['url']; ?>" target="_blank" class="text-primary"><?= $stmt_project2['url']; ?></a></td>
-                                                <td><?= $stmt_project2['date_created']; ?></td>
-                                            </tr>
-                                            <?php } } else{ } ?>
+                                            <!-- Placeholder for month's project data -->
                                         </tbody>
                                     </table>
                                 </div>
                                 <div id="recentprojects_year" style="display:none" class="recentprojects">
                                     <h5 class="card-title">Recent Projects <span>| Year</span></h5>
-                                    <table class="table table-borderless datatable overflow-auto">
+                                    <table id="recentprojects_year" class="table table-borderless datatable overflow-auto">
                                         <thead>
                                             <tr>
                                                 <th scope="col">No.</th>
                                                 <th scope="col">Title</th>
                                                 <th scope="col">Type</th>
-                                                <th scope="col">Banner</th>
                                                 <th scope="col">Link</th>
                                                 <th scope="col">Date</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php
-                                                $c = 0;
-                                                $userID = $_SESSION['auth_user'] ['user_id'];
-                                                $query_project3 = "SELECT *, DATE_FORMAT(project.date, '%m-%d-%Y %h:%i:%s %p') as date_created FROM project WHERE project.user_id = '$userID' AND project.date >= DATE_SUB(CURDATE(), INTERVAL 365 DAY) AND project.date < CURDATE()";
-                                                $query_project3_run = mysqli_query($con, $query_project3);
-                                                if(mysqli_num_rows($query_project3_run) > 0){
-                                                    foreach($query_project3_run as $stmt_project3){
-                                                    $c++
-                                            ?>
-                                            <tr>
-                                                <th scope="row"><a href="#"><?= $c; ?></a></th>
-                                                <td><a href="<?= $stmt_project3['project_id']; ?>" class="text-primary"><?= $stmt_project3['name']; ?></a></td>
-                                                <td><?= $stmt_project3['type']; ?></td>
-                                                <td><?= $stmt_project3['banner']; ?></td>
-                                                <td><a href="http://<?= $stmt_project3['url']; ?>" target="_blank" class="text-primary"><?= $stmt_project3['url']; ?></a></td>
-                                                <td><?= $stmt_project3['date_created']; ?></td>
-                                            </tr>
-                                            <?php } } else{ } ?>
+                                            <!-- Placeholder for year's project data -->
                                         </tbody>
                                     </table>
                                 </div>
@@ -857,6 +742,171 @@
 
         // Save selected filter to localStorage
         localStorage.setItem('selectedFilter', targetSection);
+        });
+    });
+</script>
+
+<!-- Ajax for Project count -->
+<script>
+    $(document).ready(function () {
+        // Function to fetch project counts via AJAX
+        function fetchProjectCounts() {
+            $.ajax({
+                url: '../ajax/index_project_counts.php',
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    // Update HTML elements with the fetched data
+                    $('#total_projects_today').text(data.total_projects_today);
+                    $('#percent_total_projects_today').text(data.percent_total_projects_today + '%');
+                    $('#total_projects_month').text(data.total_projects_month);
+                    $('#percent_total_projects_month').text(data.percent_total_projects_month + '%');
+                    $('#total_projects_year').text(data.total_projects_year);
+                    $('#percent_total_projects_year').text(data.percent_total_projects_year + '%');
+                },
+                error: function () {
+                    alert('Error fetching project counts.');
+                }
+            });
+        }
+
+        // Initial fetch of project counts
+        fetchProjectCounts();
+
+        // Attach click event handlers for filters
+        $('.count-project').click(function () {
+            var section = $(this).data('section');
+            $('.project').hide();
+            $('#' + section).show();
+        });
+    });
+</script>
+
+<!-- Ajax for Work Count -->
+<script>
+    $(document).ready(function () {
+        // Function to fetch work counts via AJAX
+        function fetchWorkCounts() {
+            $.ajax({
+                url: '../ajax/index_work_counts.php',
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    // Update HTML elements with the fetched data
+                    $('#total_work_today').text(data.total_work_today);
+                    $('#percent_total_work_today').text(data.percent_total_work_today + '%');
+                    $('#total_work_month').text(data.total_work_month);
+                    $('#percent_total_work_month').text(data.percent_total_work_month + '%');
+                    $('#total_work_year').text(data.total_work_year);
+                    $('#percent_total_work_year').text(data.percent_total_work_year + '%');
+                },
+                error: function () {
+                    alert('Error fetching work counts.');
+                }
+            });
+        }
+
+        // Initial fetch of work counts
+        fetchWorkCounts();
+
+        // Attach click event handlers for filters
+        $('.count-work').click(function () {
+            var section = $(this).data('section');
+            $('.work').hide();
+            $('#' + section).show();
+        });
+    });
+</script>
+
+<!-- Ajax for testimonials count -->
+<script>
+    $(document).ready(function () {
+        // Function to fetch testimonial counts via AJAX
+        function fetchTestimonialCounts() {
+            $.ajax({
+                url: '../ajax/index_testimonial_counts.php',
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    // Update HTML elements with the fetched data
+                    $('#total_testimonials_today').text(data.total_testimonials_today);
+                    $('#percent_total_testimonials_today').text(data.percent_total_testimonials_today + '%');
+                    $('#total_testimonials_month').text(data.total_testimonials_month);
+                    $('#percent_total_testimonials_month').text(data.percent_total_testimonials_month + '%');
+                    $('#total_testimonials_year').text(data.total_testimonials_year);
+                    $('#percent_total_testimonials_year').text(data.percent_total_testimonials_year + '%');
+                },
+                error: function () {
+                    alert('Error fetching testimonial counts.');
+                }
+            });
+        }
+
+        // Initial fetch of testimonial counts
+        fetchTestimonialCounts();
+
+        // Attach click event handlers for filters
+        $('.count-testimonials').click(function () {
+            var section = $(this).data('section');
+            $('.testimonials').hide();
+            $('#' + section).show();
+        });
+    });
+</script>
+
+<!-- Ajax for project list -->
+<script>
+    $(document).ready(function () {
+        // Function to fetch recent project data via AJAX
+        function fetchRecentProjects() {
+            $.ajax({
+                url: '../ajax/index_project_list.php',
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    // Update HTML tables with the fetched data
+                    updateRecentProjectsTable(data.recentprojects_today, 'recentprojects_today');
+                    updateRecentProjectsTable(data.recentprojects_month, 'recentprojects_month');
+                    updateRecentProjectsTable(data.recentprojects_year, 'recentprojects_year');
+                    
+                    // Initialize DataTables for the tables after data is loaded
+                    $('#recentprojects_today table').DataTable();
+                    $('#recentprojects_month table').DataTable();
+                    $('#recentprojects_year table').DataTable();
+                },
+                error: function () {
+                    alert('Error fetching recent project data.');
+                }
+            });
+        }
+
+        // Function to update HTML table with project data
+        function updateRecentProjectsTable(projects, tableID) {
+            var table = $('#' + tableID + ' table tbody');
+            table.empty();
+
+            if (projects.length > 0) {
+                $.each(projects, function (index, project) {
+                    var row = '<tr>' +
+                        '<th scope="row"><a href="#">' + (index + 1) + '</a></th>' +
+                        '<td><a href="' + project.project_id + '" class="text-primary">' + project.name + '</a></td>' +
+                        '<td>' + project.type + '</td>' +
+                        '<td><a href="http://' + project.url + '" target="_blank" class="text-primary">' + project.url + '</a></td>' +
+                        '<td>' + project.date_created + '</td>' +
+                        '</tr>';
+                    table.append(row);
+                });
+            }
+        }
+
+        // Initial fetch of recent project data
+        fetchRecentProjects();
+
+        // Attach click event handlers for filters
+        $('.count-recentprojects').click(function () {
+            var section = $(this).data('section');
+            $('.recentprojects').hide();
+            $('#' + section).show();
         });
     });
 </script>
