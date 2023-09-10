@@ -285,7 +285,7 @@
                                                 <td><a href="<?= $stmt_project1['project_id']; ?>" class="text-primary"><?= $stmt_project1['name']; ?></a></td>
                                                 <td><?= $stmt_project1['type']; ?></td>
                                                 <td><?= $stmt_project1['banner']; ?></td>
-                                                <td><a href="<?= $stmt_project1['url']; ?>" target="_blank" class="text-primary"><?= $stmt_project1['url']; ?></a></td>
+                                                <td><a href="http://<?= $stmt_project1['url']; ?>" target="_blank" class="text-primary"><?= $stmt_project1['url']; ?></a></td>
                                                 <td><?= $stmt_project1['date_created']; ?></td>
                                             </tr>
                                             <?php } } else{ } ?>
@@ -320,7 +320,7 @@
                                                 <td><a href="<?= $stmt_project2['project_id']; ?>" class="text-primary"><?= $stmt_project2['name']; ?></a></td>
                                                 <td><?= $stmt_project2['type']; ?></td>
                                                 <td><?= $stmt_project2['banner']; ?></td>
-                                                <td><a href="<?= $stmt_project2['url']; ?>" target="_blank" class="text-primary"><?= $stmt_project2['url']; ?></a></td>
+                                                <td><a href="http://<?= $stmt_project2['url']; ?>" target="_blank" class="text-primary"><?= $stmt_project2['url']; ?></a></td>
                                                 <td><?= $stmt_project2['date_created']; ?></td>
                                             </tr>
                                             <?php } } else{ } ?>
@@ -355,7 +355,7 @@
                                                 <td><a href="<?= $stmt_project3['project_id']; ?>" class="text-primary"><?= $stmt_project3['name']; ?></a></td>
                                                 <td><?= $stmt_project3['type']; ?></td>
                                                 <td><?= $stmt_project3['banner']; ?></td>
-                                                <td><a href="<?= $stmt_project3['url']; ?>" target="_blank" class="text-primary"><?= $stmt_project3['url']; ?></a></td>
+                                                <td><a href="http://<?= $stmt_project3['url']; ?>" target="_blank" class="text-primary"><?= $stmt_project3['url']; ?></a></td>
                                                 <td><?= $stmt_project3['date_created']; ?></td>
                                             </tr>
                                             <?php } } else{ } ?>

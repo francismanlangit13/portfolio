@@ -10,7 +10,6 @@
       </ol>
     </nav>
   </div><!-- End Page Title -->
-
   <section class="section">
     <div class="row">
       <div class="col-lg-12">
@@ -30,10 +29,10 @@
                   <th>ID</th>
                   <th>Name</th>
                   <th>Description</th>
-                  <th>Banner</th>
                   <th>Type</th>
                   <th>URL</th>
                   <th>Date</th>
+                  <th>Status</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -49,39 +48,45 @@
 <?php include('../includes/footer.php'); ?>
 
 <script type="text/javascript">
-$(document).ready(function() {
-  $('#dataTable').DataTable({
-    'processing': true,
-    'serverSide': true,
-    'ajax': {
-      'url': '../ajax/project.php',
-      'dataType': 'json',
-      'type': 'POST',
-    },
-    'columns': [
-      { data: 'id' },
-      { data: 'name' },
-      { data: 'description' },
-      { data: 'banner' },
-      { data: 'type' },
-      { data: 'url' },
-      { data: 'date' },
-      { data: null,
-        render: function(data, type, row, meta) {
-          return '<div class="text-center">' +
-          '<button type="button" class="btn btn-sm btn-outline-info btn-icon btn-inline-block mr-1" title="View"><i class="bx bxs-show"></i></button>' +
-          '<div class="dropdown d-inline-block">' +
-          '<button type="button" class="btn btn-sm btn-outline-primary btn-icon btn-inline-block mr-1" title="Edit"><i class="bx bxs-edit"></i></button>' +
-          '<div class="dropdown d-inline-block">' +
-          '<button type="button" class="btn btn-sm btn-outline-danger btn-icon" title="Delete"><i class="bx bxs-trash"></i></button>' +
-          '</div>' +
-          '</div>' +
-          '<span style="display: none;">' +
-          data +
-          '</span>';
+  $(document).ready(function() {
+    $('#dataTable').DataTable({
+      'processing': true,
+      'serverSide': true,
+      'scrollX': true, // Enable horizontal scrolling
+      'ajax': {
+        'url': '../ajax/project.php',
+        'dataType': 'json',
+        'type': 'POST',
+      },
+      'columns': [
+        { data: 'project_id' },
+        { data: 'name' },
+        { data: 'description' },
+        { data: 'type' },
+        { data: 'url',
+          render: function(data, type, row) {
+            if (type === 'display' && data) {
+              // Prepend 'http://' to the URL if it's not already present
+              if (data.indexOf('http://') !== 0 && data.indexOf('https://') !== 0) {
+                data1 = 'http://' + data;
+              }
+              return '<a href="' + data1 + '" target="_blank">' + data + '</a>';
+            }
+            return data;
+          },
+        },
+        { data: 'date' },
+        { data: 'status_name' },
+        { data: null,
+          orderable: false, // Disable sorting for this column
+          render: function(data, type, row, meta) {
+            return '<div class="text-center">' +
+            '<a href="project_view?id=' + data.project_id + '"" type="button" class="btn btn-sm btn-outline-info btn-icon btn-inline-block mr-1" title="View"><i class="bx bxs-show"></i></a>' + ' ' +
+            '<a href="project_edit?id=' + data.project_id + '"" class="btn btn-sm btn-outline-primary btn-icon btn-inline-block mr-1" title="Edit"><i class="bx bxs-edit"></i></a>' + ' ' +
+            '<button type="button" class="btn btn-sm btn-outline-danger btn-icon" title="Delete"><i class="bx bxs-trash"></i></button>';
+          }
         }
-    }
-    ]
+      ]
+    });
   });
-});
 </script>

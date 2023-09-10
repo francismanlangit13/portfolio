@@ -6,11 +6,18 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="../home">Home</a></li>
         <li class="breadcrumb-item"><a href="../project">Project</a></li>
-        <li class="breadcrumb-item active">Add</li>
+        <li class="breadcrumb-item active">Edit</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->
-
+  <?php
+    if(isset($_GET['id'])){
+      $id = $_GET['id'];
+      $sql = "SELECT * FROM project WHERE project_id='$id'";
+      $sql_run = mysqli_query($con, $sql);
+      if(mysqli_num_rows($sql_run) > 0){
+        foreach($sql_run as $row){
+  ?>
   <section class="section">
     <form action="code.php" method="POST" enctype="multipart/form-data" >  
       <div class="row justify-content-center">
@@ -23,42 +30,44 @@
               <div class="row"> 
                 <div class="col-md-3 mb-3">
                   <label for="pname" class="required">Project Name</label>
-                  <input required placeholder="Enter Project Name" type="text" id="pname" name="pname" class="form-control">
+                  <input required placeholder="Enter Project Name" type="text" id="pname" name="pname" value="<?=$row['name'];?>" class="form-control">
                   <div id="pname-error"></div>
                 </div>
 
                 <div class="col-md-3 mb-3">
                   <label for="ptype" class="required">Project Type</label>
-                  <input required placeholder="Enter Project Type" type="text" id="ptype" name="ptype" class="form-control">
+                  <input required placeholder="Enter Project Type" type="text" id="ptype" name="ptype" value="<?=$row['type'];?>" class="form-control">
                   <div id="ptype-error"></div>
                 </div> 
 
                 <div class="col-md-3 mb-3">
-                  <label for="purl" class="required">Project URL</label>
-                  <input required placeholder="Enter Project URL" type="text" id="purl" name="purl" class="form-control">
+                  <label for="purl" class="required">Project URL </label><sup><i class="bi bi-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Example: facebook.com"></i></sup>
+                  <input required placeholder="Enter Project URL" type="text" id="purl" name="purl" value="<?=$row['url'];?>" class="form-control">
                   <div id="purl-error"></div>
                 </div> 
 
                 <div class="col-md-3 mb-3">
                   <label for="pdate" class="required">Project Date</label>
-                  <input required class="form-control" id="pdate" name="pdate" placeholder="MM/DD/YYY" type="date"/>
+                  <input required class="form-control" id="pdate" name="pdate" placeholder="MM/DD/YYY" value="<?=$row['date'];?>" type="date"/>
                   <div id="pdate-error"></div>
                 </div>
             
                 <div class="col-md-12 mb-3">
                   <label for="pdescription" class="required">Description</label>
-                  <textarea required type="text" id="pdescription" name="pdescription" style="height: 177px; width:100%" class="quill-editor-full"></textarea>
+                  <textarea required id="pdescription" name="pdescription" style="height: 177px; width:100%" class="quill-editor-full"></textarea>
                   <div id="pdescription-error"></div>
                 </div>
 
                 <div class="col-md-6">
                   <label for="pimage1" class="required">Project Picture 1</label>
                   <input type="file" name="pimage1" id="pimage1" class="form-control btn btn-secondary" style="padding: 0.6rem 0.6rem 0.6rem 1rem" accept=".jpg, .jpeg, .png" onchange="previewImage('frame1', 'pimage1')">
+                  <input type="hidden" name="oldpimage1" value="<?= $row['photo']; ?>">
                 </div>
 
                 <div class="col-md-6">
                   <label for="pimage2" class="required">Project Picture 2</label>
                   <input type="file" name="pimage2" id="pimage2" class="form-control btn btn-secondary" style="padding: 0.6rem 0.6rem 0.6rem 1rem" accept=".jpg, .jpeg, .png" onchange="previewImage('frame2', 'pimage2')">
+                  <input type="hidden" name="oldpimage2" value="<?= $row['photo1']; ?>">
                 </div>
 
                 <div class="col-md-6 text-center">
@@ -75,12 +84,14 @@
 
                 <div class="col-md-6">
                   <label for="pimage3" class="required">Project Picture 3</label>
-                  <input type="file" name="image" id="pimage3" class="form-control btn btn-secondary" style="padding: 0.6rem 0.6rem 0.6rem 1rem" accept=".jpg, .jpeg, .png" onchange="previewImage('frame1', 'pimage3')">
+                  <input type="file" name="pimage3" id="pimage3" class="form-control btn btn-secondary" style="padding: 0.6rem 0.6rem 0.6rem 1rem" accept=".jpg, .jpeg, .png" onchange="previewImage('frame3', 'pimage3')">
+                  <input type="hidden" name="oldpimage3" value="<?= $row['photo2']; ?>">
                 </div>
 
                 <div class="col-md-6">
                   <label for="pimage4" class="required">Project Picture 4</label>
-                  <input type="file" name="image" id="pimage4" class="form-control btn btn-secondary" style="padding: 0.6rem 0.6rem 0.6rem 1rem" accept=".jpg, .jpeg, .png" onchange="previewImage('frame1', 'pimage4')">
+                  <input type="file" name="pimage4" id="pimage4" class="form-control btn btn-secondary" style="padding: 0.6rem 0.6rem 0.6rem 1rem" accept=".jpg, .jpeg, .png" onchange="previewImage('frame4', 'pimage4')">
+                  <input type="hidden" name="oldpimage4" value="<?= $row['photo3']; ?>">
                 </div>
 
                 <div class="col-md-6 text-center">
@@ -107,10 +118,50 @@
       </div>
     </form>
   </section>
+  <?php } } else{ ?>
+    <section class="section">
+      <div class="row justify-content-center">
+        <div class="col-lg-12">
+          <div class="card mt-1">
+            <div class="card-header">
+              <h5><i class="bi bi-collection"></i> Project information</h5>
+            </div>
+            <div class="card-body mt-3">
+              <h4>No Record Found!</h4>
+              <br>
+                <div class="d-flex flex-row-reverse">
+                  <a href="javascript:history.back()" class="btn btn-danger"><i class="bi bi-arrow-left"></i> Back</a>
+                </div>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  <?php } } else{ echo '<script>window.location.href = "404";</script>'; } ?>
 </main><!-- End #main -->
 <?php include('../includes/footer.php'); ?>
 
 <script>
+  var base_url = "<?php echo base_url ?>"; // Global base_url in javascript
+  // Get a reference to the textarea
+  var textarea = document.getElementById('pdescription');
+
+  // Set the value of the textarea from PHP variable
+  textarea.value = '<?= htmlspecialchars($row['description']); ?>';
+    
+    function previewImage(frameId, inputId) { // select multiple images viewer if user select desired image.
+        let image = document.getElementById(frameId);
+        let fileInput = document.getElementById(inputId);
+        
+        if (fileInput.files.length > 0) {
+            let file = fileInput.files[0];
+            image.src = URL.createObjectURL(file);
+        } else {
+            image.src = base_url + "assets/images/system/no-image.png";
+        }
+    }
+
     $(document).ready(function() {
         // disable submit button by default
         // $('#submit-btn').prop('disabled', true);
