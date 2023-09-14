@@ -1,12 +1,9 @@
 <?php
-    include ('initialize.php');
+    
+    include ('db_conn.php');
     include ('code.php');
-    if (strpos($_SERVER['PHP_SELF'], 'error') !== false) {
-        // if error.php
-    }
-    else {
-        include ('db_conn.php');
-    }
+    $secretkey_file = base_url . 'web.conf';
+    $secretkey = file_get_contents($secretkey_file);
 ?>
 <?php 
     $c_qry = $con->query("SELECT * FROM system_setting");
